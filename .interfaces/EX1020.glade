@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.0 -->
+  <!-- interface-naming-policy toplevel-contextual -->
+  <!-- interface-local-resource-path ../.imagenes -->
+  <object class="GtkWindow" id="WN_ex1020">
+    <property name="width_request">658</property>
+    <property name="height_request">208</property>
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">The Examiner - Instala Nueva Versión</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center</property>
+    <property name="default_width">667</property>
+    <property name="default_height">262</property>
+    <property name="icon">../.imagenes/EX1020.png</property>
+    <signal name="destroy" handler="on_WN_ex1020_destroy" swapped="no"/>
+    <child>
+      <object class="GtkFixed" id="fixed1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkLabel" id="label1">
+            <property name="width_request">130</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="white"&gt;Instalación de 
+Versiones Nuevas&lt;/span&gt;&lt;/b&gt;</property>
+            <property name="use_markup">True</property>
+            <property name="width_chars">30</property>
+          </object>
+          <packing>
+            <property name="x">45</property>
+            <property name="y">7</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkImage" id="image4">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="pixbuf">../.imagenes/EX1020.png</property>
+          </object>
+          <packing>
+            <property name="x">6</property>
+            <property name="y">6</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="EB_instalacion">
+            <property name="width_request">647</property>
+            <property name="height_request">107</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkFrame" id="FR_instalacion">
+                <property name="width_request">647</property>
+                <property name="height_request">107</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label_xalign">0</property>
+                <property name="label_yalign">0</property>
+                <property name="shadow_type">etched-out</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment5">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFixed" id="fixed7">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkFileChooserButton" id="FC_EX_tgz">
+                            <property name="width_request">45</property>
+                            <property name="height_request">27</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="has_tooltip">True</property>
+                            <property name="orientation">vertical</property>
+                            <property name="action">select-folder</property>
+                            <property name="create_folders">False</property>
+                            <property name="show_hidden">True</property>
+                            <property name="title" translatable="yes">Directorio donde se encuentra EX.tgz</property>
+                            <signal name="current-folder-changed" handler="on_FC_EX_tgz_current_folder_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="x">590</property>
+                            <property name="y">10</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label3">
+                            <property name="width_request">102</property>
+                            <property name="height_request">27</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="xalign">1</property>
+                            <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="black"&gt;EX.tgz :&lt;/span&gt;&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">5</property>
+                            <property name="y">10</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label2">
+                            <property name="width_request">102</property>
+                            <property name="height_request">27</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="xalign">1</property>
+                            <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="black"&gt;Ejecución :&lt;/span&gt;&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">5</property>
+                            <property name="y">40</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFileChooserButton" id="FC_ejecucion">
+                            <property name="width_request">45</property>
+                            <property name="height_request">27</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="has_tooltip">True</property>
+                            <property name="orientation">vertical</property>
+                            <property name="action">select-folder</property>
+                            <property name="show_hidden">True</property>
+                            <property name="title" translatable="yes">Directorio donde The Examiner ejecuta</property>
+                            <signal name="current-folder-changed" handler="on_FC_ejecucion_current_folder_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="x">590</property>
+                            <property name="y">40</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="CK_respaldo">
+                            <property name="height_request">27</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_CK_respaldo_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="x">5</property>
+                            <property name="y">70</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label4">
+                            <property name="width_request">82</property>
+                            <property name="height_request">27</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="xalign">1</property>
+                            <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="black"&gt;Respaldo :&lt;/span&gt;&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">25</property>
+                            <property name="y">70</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFileChooserButton" id="FC_respaldo">
+                            <property name="width_request">45</property>
+                            <property name="height_request">27</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="has_tooltip">True</property>
+                            <property name="orientation">vertical</property>
+                            <property name="action">select-folder</property>
+                            <property name="show_hidden">True</property>
+                            <property name="title" translatable="yes">Directorio donde la versión previa será respaldada</property>
+                            <signal name="current-folder-changed" handler="on_FC_respaldo_current_folder_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="x">590</property>
+                            <property name="y">70</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="EN_EX_tgz">
+                            <property name="width_request">475</property>
+                            <property name="height_request">27</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="tooltip_text" translatable="yes">Directorio donde reside archivo EX.tgz con nueva versión del software</property>
+                            <property name="invisible_char">●</property>
+                            <property name="shadow_type">etched-out</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">110</property>
+                            <property name="y">10</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="EN_ejecucion">
+                            <property name="width_request">475</property>
+                            <property name="height_request">27</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="tooltip_text" translatable="yes">Directorio donde se ejecuta The Examiner</property>
+                            <property name="invisible_char">●</property>
+                            <property name="shadow_type">etched-out</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">110</property>
+                            <property name="y">40</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="EN_respaldo">
+                            <property name="width_request">475</property>
+                            <property name="height_request">27</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="tooltip_text" translatable="yes">Directorio donde se deja respaldo de contenido previo de directorio de ejecución</property>
+                            <property name="invisible_char">●</property>
+                            <property name="shadow_type">etched-out</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">110</property>
+                            <property name="y">70</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label_item">
+                  <placeholder/>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="x">6</property>
+            <property name="y">62</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFrame" id="FR_botones">
+            <property name="width_request">163</property>
+            <property name="height_request">55</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed3">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkImage" id="image3">
+                        <property name="width_request">158</property>
+                        <property name="height_request">51</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="pixbuf">../.imagenes/empty.png</property>
+                      </object>
+                      <packing>
+                        <property name="x">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_proceso">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image8</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_proceso_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">-2</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_undo">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Reinicia los datos</property>
+                        <property name="tooltip_text" translatable="yes">Reinicia los datos</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image9</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_undo_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">52</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_terminar">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Sale del Programa.</property>
+                        <property name="tooltip_text" translatable="yes">Sale del Programa.</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image22</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_terminar_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">105</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="x">489</property>
+            <property name="y">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="LB_EX_tgz_mensaje">
+            <property name="width_request">420</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">1</property>
+            <property name="label" translatable="yes">Archivo &lt;b&gt;EX.tgz&lt;/b&gt; no se encuentra en el directorio indicado</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="x">60</property>
+            <property name="y">175</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_instalando">
+    <property name="width_request">335</property>
+    <property name="height_request">80</property>
+    <property name="can_focus">False</property>
+    <property name="type">popup</property>
+    <property name="title" translatable="yes">Instala nueva versión</property>
+    <property name="window_position">center-always</property>
+    <child>
+      <object class="GtkEventBox" id="EB_instalando">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_instalando">
+            <property name="width_request">320</property>
+            <property name="height_request">75</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment11">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed13">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="label10">
+                        <property name="height_request">28</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;&lt;b&gt;Instalando Nueva Versión...&lt;/b&gt;&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">100</property>
+                        <property name="y">10</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkImage" id="image21">
+                        <property name="width_request">65</property>
+                        <property name="height_request">65</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="pixbuf">../.imagenes/working.png</property>
+                      </object>
+                      <packing>
+                        <property name="x">20</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkProgressBar" id="PB_instala">
+                        <property name="width_request">220</property>
+                        <property name="height_request">15</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="x">100</property>
+                        <property name="y">50</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_instalation_ready">
+    <property name="width_request">335</property>
+    <property name="height_request">165</property>
+    <property name="can_focus">False</property>
+    <property name="type">popup</property>
+    <property name="title" translatable="yes">Actualización Realizada</property>
+    <property name="window_position">center-always</property>
+    <child>
+      <object class="GtkEventBox" id="EB_instalation_ready">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_instalation_ready">
+            <property name="width_request">320</property>
+            <property name="height_request">75</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed10">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="LB_instalation_ready">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;&lt;b&gt;Instalación fue realizada&lt;/b&gt;&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">10</property>
+                        <property name="y">10</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_instalation_ready">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image16</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_instalation_ready_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">268</property>
+                        <property name="y">81</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_version_nueva">
+    <property name="width_request">445</property>
+    <property name="height_request">170</property>
+    <property name="can_focus">False</property>
+    <property name="type">popup</property>
+    <property name="title" translatable="yes">Mensaje</property>
+    <property name="window_position">center</property>
+    <property name="default_width">445</property>
+    <property name="default_height">170</property>
+    <property name="destroy_with_parent">True</property>
+    <child>
+      <object class="GtkFrame" id="FR_VN">
+        <property name="width_request">340</property>
+        <property name="height_request">56</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label_xalign">0</property>
+        <property name="shadow_type">etched-out</property>
+        <child>
+          <object class="GtkAlignment" id="alignment6">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="left_padding">12</property>
+            <child>
+              <object class="GtkFixed" id="fixed8">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="LB_datos_mensaje">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">1</property>
+                    <property name="label" translatable="yes">&lt;b&gt;¿Desea instalar la nueva 
+versión de The Examiner?&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">90</property>
+                    <property name="y">105</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="BN_confirma_instalacion">
+                    <property name="width_request">56</property>
+                    <property name="height_request">56</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="tooltip_text" translatable="yes">Instala la nueva versión del software. Usar con mucho cuidado</property>
+                    <property name="border_width">2</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="image">image12</property>
+                    <property name="relief">none</property>
+                    <property name="image_position">top</property>
+                    <signal name="clicked" handler="on_BN_confirma_instalacion_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">297</property>
+                    <property name="y">95</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="BN_cancela_instalacion">
+                    <property name="width_request">56</property>
+                    <property name="height_request">56</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="tooltip_text" translatable="yes">Cancela instalación</property>
+                    <property name="border_width">2</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="image">image13</property>
+                    <property name="relief">none</property>
+                    <property name="image_position">top</property>
+                    <signal name="clicked" handler="on_BN_cancela_instalacion_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">360</property>
+                    <property name="y">95</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkImage" id="image10">
+                    <property name="width_request">100</property>
+                    <property name="height_request">80</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="pixbuf">../.imagenes/atencion-chico.png</property>
+                  </object>
+                  <packing>
+                    <property name="y">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="LB_advertencia">
+                    <property name="height_request">80</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">&lt;b&gt;ATENCIÓN: el contenido actual del directorio
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+será borrado y reemplazadp por el contenido
+del archivo EX.tgz tomado del diretorio
+yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">100</property>
+                    <property name="y">10</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child type="label_item">
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkImage" id="image12">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkImage" id="image13">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-cancel.png</property>
+  </object>
+  <object class="GtkImage" id="image16">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkImage" id="image22">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-exit.png</property>
+  </object>
+  <object class="GtkImage" id="image8">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-proceso.png</property>
+  </object>
+  <object class="GtkImage" id="image9">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-reset.png</property>
+  </object>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="liststore2">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+</interface>

@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.0 -->
+  <!-- interface-naming-policy toplevel-contextual -->
+  <!-- interface-local-resource-path ../.imagenes -->
+  <object class="GtkWindow" id="WN_ex2000">
+    <property name="width_request">564</property>
+    <property name="height_request">241</property>
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">The Examiner - Materias, Temas y Subtemas</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center</property>
+    <property name="default_width">585</property>
+    <property name="default_height">285</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="icon">../.imagenes/EX2000.png</property>
+    <signal name="destroy" handler="on_WN_ex2000_destroy" swapped="no"/>
+    <child>
+      <object class="GtkFixed" id="fixed1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkLabel" id="label1">
+            <property name="width_request">123</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="white"&gt;Materias, Temas
+y Subtemas&lt;/span&gt;&lt;/b&gt;</property>
+            <property name="use_markup">True</property>
+            <property name="width_chars">30</property>
+          </object>
+          <packing>
+            <property name="x">45</property>
+            <property name="y">7</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label2">
+            <property name="width_request">70</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">1</property>
+            <property name="label" translatable="yes">&lt;span foreground="white"&gt;Materia:&lt;/span&gt;</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="y">62</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="EN_materia">
+            <property name="width_request">85</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="has_tooltip">True</property>
+            <property name="tooltip_text" translatable="yes">Código de Curso o Materia.</property>
+            <property name="max_length">10</property>
+            <property name="invisible_char">●</property>
+            <property name="width_chars">0</property>
+            <property name="shadow_type">etched-out</property>
+            <property name="primary_icon_activatable">False</property>
+            <property name="secondary_icon_activatable">False</property>
+            <property name="primary_icon_sensitive">True</property>
+            <property name="secondary_icon_sensitive">True</property>
+            <signal name="activate" handler="on_EN_materia_activate" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">73</property>
+            <property name="y">62</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="LB_tema">
+            <property name="width_request">70</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">1</property>
+            <property name="label" translatable="yes">&lt;span foreground="white"&gt;Tema:&lt;/span&gt;</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="y">102</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="EN_tema">
+            <property name="width_request">85</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="has_tooltip">True</property>
+            <property name="tooltip_text" translatable="yes">Código de Tema dentro de Materia.</property>
+            <property name="max_length">10</property>
+            <property name="invisible_char">●</property>
+            <property name="width_chars">0</property>
+            <property name="shadow_type">etched-out</property>
+            <property name="primary_icon_activatable">False</property>
+            <property name="secondary_icon_activatable">False</property>
+            <property name="primary_icon_sensitive">True</property>
+            <property name="secondary_icon_sensitive">True</property>
+            <signal name="activate" handler="on_EN_tema_activate" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">73</property>
+            <property name="y">102</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="LB_subtema">
+            <property name="width_request">70</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">1</property>
+            <property name="label" translatable="yes">&lt;span foreground="white"&gt;Subtema:&lt;/span&gt;</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="y">174</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="EN_subtema">
+            <property name="width_request">85</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="has_tooltip">True</property>
+            <property name="tooltip_text" translatable="yes">Código de Subtema dentro del Tema.</property>
+            <property name="max_length">10</property>
+            <property name="invisible_char">●</property>
+            <property name="width_chars">10</property>
+            <property name="shadow_type">etched-out</property>
+            <property name="primary_icon_activatable">False</property>
+            <property name="secondary_icon_activatable">False</property>
+            <property name="primary_icon_sensitive">True</property>
+            <property name="secondary_icon_sensitive">True</property>
+            <signal name="activate" handler="on_EN_subtema_activate" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">73</property>
+            <property name="y">174</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="EN_descripcion_materia">
+            <property name="width_request">390</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="tooltip_text" translatable="yes">Descripción de Materia</property>
+            <property name="max_length">200</property>
+            <property name="invisible_char">●</property>
+            <property name="width_chars">0</property>
+            <property name="shadow_type">etched-out</property>
+            <property name="primary_icon_activatable">False</property>
+            <property name="secondary_icon_activatable">False</property>
+            <property name="primary_icon_sensitive">True</property>
+            <property name="secondary_icon_sensitive">True</property>
+            <signal name="activate" handler="on_EN_descripcion_materia_activate" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">168</property>
+            <property name="y">62</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="EN_descripcion_tema">
+            <property name="width_request">390</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="tooltip_text" translatable="yes">Descripción de Tema</property>
+            <property name="max_length">200</property>
+            <property name="invisible_char">●</property>
+            <property name="width_chars">0</property>
+            <property name="shadow_type">etched-out</property>
+            <property name="primary_icon_activatable">False</property>
+            <property name="secondary_icon_activatable">False</property>
+            <property name="primary_icon_sensitive">True</property>
+            <property name="secondary_icon_sensitive">True</property>
+            <signal name="activate" handler="on_EN_descripcion_tema_activate" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">168</property>
+            <property name="y">102</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="EN_descripcion_subtema">
+            <property name="width_request">390</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="tooltip_text" translatable="yes">Descripción de Subtema</property>
+            <property name="max_length">200</property>
+            <property name="invisible_char">●</property>
+            <property name="width_chars">0</property>
+            <property name="shadow_type">etched-out</property>
+            <property name="primary_icon_activatable">False</property>
+            <property name="secondary_icon_activatable">False</property>
+            <property name="primary_icon_sensitive">True</property>
+            <property name="secondary_icon_sensitive">True</property>
+            <signal name="activate" handler="on_EN_descripcion_subtema_activate" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">168</property>
+            <property name="y">174</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="CB_subtema">
+            <property name="width_request">485</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Seleccione algún Subtema o solicite Subtema Nuevo</property>
+            <property name="model">liststore3</property>
+            <signal name="changed" handler="on_CB_subtema_changed" swapped="no"/>
+            <child>
+              <object class="GtkCellRendererText" id="cellrenderertext3"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="x">73</property>
+            <property name="y">174</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="CB_tema">
+            <property name="width_request">485</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Seleccione algún Tema o indique Tema Nuevo</property>
+            <property name="model">liststore2</property>
+            <signal name="changed" handler="on_CB_tema_changed" swapped="no"/>
+            <child>
+              <object class="GtkCellRendererText" id="cellrenderertext2"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="x">73</property>
+            <property name="y">102</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="CB_materia">
+            <property name="width_request">485</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Seleccione alguna Materia o indique Materia Nueva</property>
+            <property name="model">liststore1</property>
+            <signal name="changed" handler="on_CB_materia_changed" swapped="no"/>
+            <child>
+              <object class="GtkCellRendererText" id="cellrenderertext1"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="x">73</property>
+            <property name="y">62</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHScale" id="SC_orden_tema">
+            <property name="width_request">485</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="tooltip_text" translatable="yes">Establece el orden cronológico de los Temas
+dentro de una Materia</property>
+            <property name="adjustment">adjustment2</property>
+            <property name="digits">0</property>
+            <property name="value_pos">right</property>
+          </object>
+          <packing>
+            <property name="x">73</property>
+            <property name="y">134</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHScale" id="SC_orden_subtema">
+            <property name="width_request">485</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="tooltip_text" translatable="yes">Establece el orden cronlógico de los Subtemas
+dentro de un Tema</property>
+            <property name="adjustment">adjustment1</property>
+            <property name="digits">0</property>
+            <property name="value_pos">right</property>
+          </object>
+          <packing>
+            <property name="x">73</property>
+            <property name="y">206</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="LB_orden_tema">
+            <property name="width_request">70</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">1</property>
+            <property name="label" translatable="yes">&lt;span foreground="white"&gt;Orden:&lt;/span&gt;</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="y">134</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="LB_orden_subtema">
+            <property name="width_request">70</property>
+            <property name="height_request">27</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">1</property>
+            <property name="label" translatable="yes">&lt;span foreground="white"&gt;Orden:&lt;/span&gt;</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="y">206</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkImage" id="image6">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="pixbuf">../.imagenes/EX2000.png</property>
+          </object>
+          <packing>
+            <property name="x">6</property>
+            <property name="y">6</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFrame" id="FR_botones">
+            <property name="width_request">264</property>
+            <property name="height_request">55</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkImage" id="image7">
+                        <property name="width_request">259</property>
+                        <property name="height_request">51</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="pixbuf">../.imagenes/empty.png</property>
+                      </object>
+                      <packing>
+                        <property name="x">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_print">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Despliega PDF con contenido actual del archivo</property>
+                        <property name="tooltip_text" translatable="yes">Despliega PDF con contenido actual del archivo</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image1</property>
+                        <property name="relief">none</property>
+                        <signal name="clicked" handler="on_BN_print_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">102</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_save">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Graba registro con información actual.</property>
+                        <property name="tooltip_text" translatable="yes">Graba registro con información actual.</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image5</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_save_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">-2</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_delete">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Borra registro si no es utilizado en ningún ejercicio.</property>
+                        <property name="tooltip_text" translatable="yes">Borra registro si no es utilizado en ningún ejercicio.</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image4</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_delete_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">50</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_undo">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Reinicia entrada de datos sin grabar</property>
+                        <property name="tooltip_text" translatable="yes">Reinicia entrada de datos sin grabar</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image2</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_undo_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">154</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_terminar">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Finaliza el Programa</property>
+                        <property name="tooltip_text" translatable="yes">Finaliza el Programa</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image3</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_terminar_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">206</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="x">294</property>
+            <property name="y">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_reporte">
+    <property name="width_request">335</property>
+    <property name="height_request">80</property>
+    <property name="can_focus">False</property>
+    <property name="type">popup</property>
+    <property name="title" translatable="yes">Actualización Realizada</property>
+    <property name="window_position">center-always</property>
+    <child>
+      <object class="GtkEventBox" id="EB_reporte">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_reporte">
+            <property name="width_request">320</property>
+            <property name="height_request">75</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment12">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed13">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="label53">
+                        <property name="height_request">28</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;&lt;b&gt;Generando Reporte&lt;/b&gt;&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">90</property>
+                        <property name="y">10</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkImage" id="image20">
+                        <property name="width_request">65</property>
+                        <property name="height_request">65</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="pixbuf">../.imagenes/working.png</property>
+                      </object>
+                      <packing>
+                        <property name="x">10</property>
+                        <property name="y">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkProgressBar" id="PB_reporte">
+                        <property name="width_request">230</property>
+                        <property name="height_request">15</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="x">90</property>
+                        <property name="y">51</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_update">
+    <property name="can_focus">False</property>
+    <property name="type">popup</property>
+    <property name="title" translatable="yes">Actualización Realizada</property>
+    <property name="window_position">center-always</property>
+    <child>
+      <object class="GtkEventBox" id="EB_update">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_update">
+            <property name="width_request">320</property>
+            <property name="height_request">75</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment9">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed7">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="label39">
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;&lt;b&gt;Datos fueron actualizados&lt;/b&gt;&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">10</property>
+                        <property name="y">24</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_ok">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image8</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_ok_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">255</property>
+                        <property name="y">8</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-pdf.png</property>
+  </object>
+  <object class="GtkImage" id="image2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-reset.png</property>
+  </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-exit.png</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-delete.png</property>
+  </object>
+  <object class="GtkImage" id="image5">
+    <property name="width_request">0</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-save.png</property>
+  </object>
+  <object class="GtkImage" id="image8">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="liststore2">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="liststore3">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+</interface>

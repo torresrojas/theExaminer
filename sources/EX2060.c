@@ -1,0 +1,942 @@
+/*
+Compilar con:
+
+cc -o EX2060 EX2060.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+*/
+/*******************************************/
+/*  EX2060:                                */
+/*                                         */
+/*    Copia Ejercicios                     */
+/*    The Examiner 0.0                     */
+/*    4 de Julio del 2011                  */
+/*    Autor: Francisco J. Torres-Rojas     */        
+/*-----------------------------------------*/
+/*    Se cambia a que solo haga copias     */
+/*    Autor: francisco J. Torres-Rojas     */
+/*    25 de Julio del 2014                 */
+/*-----------------------------------------*/
+/*    Se reemplaza libglade por Gtkbuilder */
+/*    Autor: Francisco J. Torres-Rojas     */        
+/*    12 de Enero del 2012                 */
+/*******************************************/
+#include <gtk/gtk.h>
+#include <stdlib.h>
+#include <string.h>
+#include <libpq-fe.h>
+#include <time.h>
+#include <locale.h>
+#include "examiner.h"
+
+/***************************/
+/* Postgres stuff          */
+/***************************/
+PGconn	 *DATABASE;
+PGresult *res, *res_aux;
+
+/*************/
+/* GTK stuff */
+/*************/
+GtkBuilder*builder; 
+GError    * error;
+
+GtkWidget *window1              = NULL;
+GtkWidget *window2              = NULL;
+
+GtkSpinButton *SP_ejercicio     = NULL;
+GtkWidget *SC_ejercicio         = NULL;
+
+GtkWidget *EB_previo            = NULL;
+GtkWidget *FR_previo            = NULL;
+GtkWidget *EB_nuevo             = NULL;
+GtkWidget *FR_nuevo             = NULL;
+
+GtkWidget *EN_codigo            = NULL;
+GtkWidget *EN_texto             = NULL;
+GtkWidget *EN_materia           = NULL;
+GtkWidget *EN_tema              = NULL;
+GtkWidget *EN_subtema           = NULL;
+GtkWidget *EN_descripcion       = NULL;
+GtkWidget *EN_preguntas         = NULL;
+
+GtkWidget *EN_codigo_nuevo      = NULL;
+GtkComboBox *CB_materia         = NULL;
+GtkComboBox *CB_tema            = NULL;
+GtkComboBox *CB_subtema         = NULL;
+GtkWidget *EN_descripcion_nueva = NULL;
+GtkToggleButton *CK_preguntas   = NULL;
+
+GtkWidget *EB_copia             = NULL;
+GtkWidget *FR_copia             = NULL;
+GtkWidget *BN_ok_copia          = NULL;
+
+GtkWidget *FR_botones           = NULL;
+GtkWidget *BN_ok                = NULL;
+GtkWidget *BN_copia             = NULL;
+GtkWidget *BN_undo              = NULL;
+GtkWidget *BN_terminar          = NULL;
+
+/***********************/
+/* Prototypes          */
+/***********************/
+void Cambio_Codigo           (GtkWidget *widget, gpointer user_data);
+void Cambio_Materia          (GtkWidget *widget, gpointer user_data);
+void Cambio_Subtema          (GtkWidget *widget, gpointer user_data);
+void Cambio_Tema             (GtkWidget *widget, gpointer user_data);
+void Carga_Registro          (PGresult *res);
+void Connect_Widgets         ();
+void Copia_Preguntas         (int Last_texto, int Last_pregunta, int year, int month, int day);
+void Extrae_codigo           (char * hilera, char * codigo);
+void Fin_de_Programa         (GtkWidget *widget, gpointer user_data);
+void Fin_Ventana             (GtkWidget *widget, gpointer user_data);
+void Hace_Copia              (GtkWidget *widget, gpointer user_data);
+void Init_Fields             ();
+void Interface_Coloring      ();
+void on_BN_copia_clicked     (GtkWidget *widget, gpointer user_data);
+void on_BN_terminar_clicked  (GtkWidget *widget, gpointer user_data);
+void on_BN_undo_clicked      (GtkWidget *widget, gpointer user_data);
+void on_CB_materia_changed   (GtkWidget *widget, gpointer user_data);
+void on_CB_subtema_changed   (GtkWidget *widget, gpointer user_data);
+void on_CB_tema_changed      (GtkWidget *widget, gpointer user_data);
+void on_EN_codigo_activate   (GtkWidget *widget, gpointer user_data);
+void on_WN_ex2060_destroy    (GtkWidget *widget, gpointer user_data);
+void Read_Only_Fields        ();
+void Set_Materia             ();
+void Set_Tema                ();
+void Set_Subtema             ();
+
+
+/***************************/
+/* Globales y Definiciones */
+/***************************/
+struct PARAMETROS_EXAMINER parametros;
+
+#define CODIGO_SIZE              10
+
+int N_materias = 0;
+int N_temas    = 0;
+int N_subtemas = 0;
+
+char Codigo_texto_actual [CODIGO_SIZE];
+char Materia_original    [CODIGO_SIZE];
+char Tema_original       [CODIGO_SIZE];
+char Subtema_original    [CODIGO_SIZE];
+
+/*----------------------------------------------------------------------------*/
+
+/***************/
+/* M A I N ( ) */
+/***************/
+int main(int argc, char *argv[]) 
+{
+  /* make a connection to the database */
+  DATABASE = EX_connect_data_base ();
+
+  /* check to see that the backend connection was successfully made */
+  if (PQstatus(DATABASE) == CONNECTION_BAD)
+     {
+      fprintf(stderr, "Connection to database failed.\n");
+      fprintf(stderr, "%s", PQerrorMessage(DATABASE));
+      PQfinish(DATABASE);
+     }
+  else
+     {
+      gtk_init(&argc, &argv);
+      /* makes sure that numbers are formatted with '.' to separate decimals from integers - must be done after gkt_init() */
+      setlocale (LC_NUMERIC, "en_US.UTF-8");
+      carga_parametros_EXAMINER (&parametros, DATABASE);
+
+      builder = gtk_builder_new ();
+      if (!gtk_builder_add_from_file (builder, ".interfaces/EX2060.glade", &error))
+         {
+          g_warning ("%s\n", error->message);
+          g_error_free (error);
+         }
+      else
+	 {
+	  /* Conecta funciones con eventos de la interfaz */
+          gtk_builder_connect_signals (builder, NULL);
+
+	  /* Crea conexión con los campos de la interfaz a ser controlados */
+	  Connect_Widgets ();
+
+	  /* Algunos campos son READ ONLY */
+	  Read_Only_Fields ();
+
+	  /* Un poco de color */
+	  Interface_Coloring ();
+
+	  /* Despliega ventana principal e inicializa todos los campos */
+          gtk_widget_show (window1);  
+          Init_Fields ();
+
+          /* start the event loop */
+          gtk_main ();
+	 }
+     }
+
+  return 0;
+}
+
+void Connect_Widgets ()
+{
+  window1              = GTK_WIDGET (gtk_builder_get_object (builder, "WN_ex2060"));
+  window2              = GTK_WIDGET (gtk_builder_get_object (builder, "WN_copia"));
+
+  SP_ejercicio         = (GtkSpinButton *) GTK_WIDGET (gtk_builder_get_object (builder, "SP_ejercicio"));
+  SC_ejercicio         = GTK_WIDGET (gtk_builder_get_object (builder, "SC_ejercicio"));
+  EB_previo            = GTK_WIDGET (gtk_builder_get_object (builder, "EB_previo"));
+  FR_previo            = GTK_WIDGET (gtk_builder_get_object (builder, "FR_previo"));
+  EB_nuevo             = GTK_WIDGET (gtk_builder_get_object (builder, "EB_nuevo"));
+  FR_nuevo             = GTK_WIDGET (gtk_builder_get_object (builder, "FR_nuevo"));
+  EN_codigo            = GTK_WIDGET (gtk_builder_get_object (builder, "EN_codigo"));
+  EN_materia           = GTK_WIDGET (gtk_builder_get_object (builder, "EN_materia"));
+  EN_tema              = GTK_WIDGET (gtk_builder_get_object (builder, "EN_tema"));
+  EN_subtema           = GTK_WIDGET (gtk_builder_get_object (builder, "EN_subtema"));
+  EN_descripcion       = GTK_WIDGET (gtk_builder_get_object (builder, "EN_descripcion"));
+  EN_preguntas         = GTK_WIDGET (gtk_builder_get_object (builder, "EN_preguntas"));
+  EN_codigo_nuevo      = GTK_WIDGET (gtk_builder_get_object (builder, "EN_codigo_nuevo"));
+  CB_materia           = (GtkComboBox *) GTK_WIDGET (gtk_builder_get_object (builder, "CB_materia"));
+  CB_tema              = (GtkComboBox *) GTK_WIDGET (gtk_builder_get_object (builder, "CB_tema"));
+  CB_subtema           = (GtkComboBox *) GTK_WIDGET (gtk_builder_get_object (builder, "CB_subtema"));
+  EN_descripcion_nueva = GTK_WIDGET (gtk_builder_get_object (builder, "EN_descripcion_nueva"));
+  CK_preguntas         = (GtkToggleButton *) GTK_WIDGET (gtk_builder_get_object (builder, "CK_preguntas"));
+  FR_botones           = GTK_WIDGET (gtk_builder_get_object (builder, "FR_botones"));
+  BN_ok                = GTK_WIDGET (gtk_builder_get_object (builder, "BN_ok"));
+  BN_copia             = GTK_WIDGET (gtk_builder_get_object (builder, "BN_copia"));
+  BN_undo              = GTK_WIDGET (gtk_builder_get_object (builder, "BN_undo"));
+  BN_terminar          = GTK_WIDGET (gtk_builder_get_object (builder, "BN_terminar"));
+
+  EB_copia             = GTK_WIDGET (gtk_builder_get_object (builder, "EB_copia"));
+  FR_copia             = GTK_WIDGET (gtk_builder_get_object (builder, "FR_copia"));
+  BN_ok_copia          = GTK_WIDGET (gtk_builder_get_object (builder, "BN_ok_copia"));
+}
+
+void Read_Only_Fields ()
+{
+  gtk_widget_set_can_focus(EN_codigo,             FALSE);
+  gtk_widget_set_can_focus(EN_materia,            FALSE);
+  gtk_widget_set_can_focus(EN_tema,               FALSE);
+  gtk_widget_set_can_focus(EN_subtema,            FALSE);
+  gtk_widget_set_can_focus(EN_descripcion,        FALSE);
+  gtk_widget_set_can_focus(EN_codigo_nuevo,       FALSE);
+}
+
+void Interface_Coloring()
+{
+  GdkColor color;
+
+  gdk_color_parse (MAIN_WINDOW, &color);
+  gtk_widget_modify_bg(window1,  GTK_STATE_NORMAL, &color);
+
+  gdk_color_parse (MAIN_AREA, &color);
+  gtk_widget_modify_bg(EB_nuevo,             GTK_STATE_NORMAL, &color);
+
+  gdk_color_parse (SECONDARY_AREA, &color);
+  gtk_widget_modify_bg(EB_previo, GTK_STATE_NORMAL,   &color);
+
+  gdk_color_parse (IMPORTANT_WINDOW, &color);
+  gtk_widget_modify_bg(EB_copia, GTK_STATE_NORMAL,   &color);
+
+  gdk_color_parse (IMPORTANT_FR, &color);
+  gtk_widget_modify_bg(FR_copia,   GTK_STATE_NORMAL,   &color);
+
+  gdk_color_parse (STANDARD_FRAME, &color);
+  gtk_widget_modify_bg(FR_botones,  GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(FR_previo,       GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_codigo,                GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_descripcion,           GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_materia,               GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_tema,                  GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_subtema,               GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_preguntas,             GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(GTK_WIDGET(SP_ejercicio), GTK_STATE_NORMAL, &color);
+
+  gdk_color_parse (STANDARD_ENTRY, &color);
+  gtk_widget_modify_bg(FR_nuevo,             GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_codigo_nuevo,      GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_descripcion_nueva, GTK_STATE_NORMAL, &color);
+
+  gdk_color_parse (BUTTON_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_terminar,     GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_undo,         GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_copia,        GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_ok,           GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_ok_copia,     GTK_STATE_PRELIGHT, &color);
+
+  gdk_color_parse (BUTTON_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_terminar,     GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_undo,         GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_copia,        GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_ok,           GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_ok_copia,     GTK_STATE_ACTIVE, &color);
+}
+
+void Init_Fields()
+{
+   int  i, Last;
+   char Codigo [CODIGO_SIZE];
+   char hilera [400];
+   PGresult *res;
+
+   /* Recupera el ejercicio con código más alto - supuestamente este fue el último en ser ingresado */
+   res = PQEXEC(DATABASE, "SELECT codigo_ejercicio, texto_ejercicio from BD_ejercicios order by codigo_ejercicio DESC limit 1");
+   if (PQntuples(res))
+      {
+       Last = atoi (PQgetvalue (res, 0, 0));
+       if (Last > 1)
+	  {
+           gtk_widget_set_sensitive    (SC_ejercicio, 1);
+           gtk_widget_set_sensitive    (GTK_WIDGET(SP_ejercicio), 1);
+           gtk_range_set_range (GTK_RANGE(SC_ejercicio),  (gdouble) 1.0, (gdouble) Last);
+           gtk_spin_button_set_range (SP_ejercicio, 1.0, (long double) Last);
+	  }
+       else
+ 	  { /* Solo hay un ejercicio */
+           gtk_widget_set_sensitive    (SC_ejercicio, 0);
+           gtk_widget_set_sensitive    (GTK_WIDGET(SP_ejercicio), 0);
+
+           gtk_range_set_range (GTK_RANGE(SC_ejercicio),  (gdouble) 0.0, (gdouble) Last);
+           gtk_spin_button_set_range (SP_ejercicio, 0.0, (long double) Last);
+	  }
+
+       gtk_range_set_value (GTK_RANGE(SC_ejercicio),  (gdouble) 0);
+       gtk_range_set_value (GTK_RANGE(SC_ejercicio),  (gdouble) Last);
+
+       sprintf (Codigo,"%06d",Last+1);
+       gtk_entry_set_text(GTK_ENTRY(EN_codigo_nuevo), Codigo);
+      }
+   else
+      { /* Este caso no debiera de darse */
+      }
+
+   gtk_combo_box_set_active (CB_materia, -1);
+   for (i=0; i < N_materias; i++)
+       {
+	gtk_combo_box_remove_text (CB_materia, 0);
+       }
+
+   gtk_combo_box_set_active (CB_tema, -1);
+   for (i=0; i<N_temas; i++)
+       {
+	gtk_combo_box_remove_text (CB_tema, 0);
+       }
+
+   gtk_combo_box_set_active (CB_subtema, -1);
+   for (i=0; i<N_subtemas; i++)
+       {
+	gtk_combo_box_remove_text (CB_subtema, 0);
+       }
+
+   res = PQEXEC(DATABASE,"SELECT codigo_materia, descripcion_materia from bd_materias where codigo_tema = '          ' and codigo_subtema = '          ' order by codigo_materia"); 
+   N_materias = PQntuples(res);
+   for (i=0; i < N_materias; i++)
+       {
+	sprintf (hilera,"%s %s", PQgetvalue (res, i, 0), PQgetvalue (res, i, 1));
+        gtk_combo_box_append_text(CB_materia, hilera);
+       }
+   PQclear(res);
+
+   if (N_materias)
+      gtk_combo_box_set_active (CB_materia, 1);
+   else
+      gtk_combo_box_set_active (CB_materia, -1);
+
+   gtk_widget_set_sensitive(EN_descripcion_nueva  ,   0);
+   gtk_widget_set_sensitive(GTK_WIDGET(CB_materia),   0);
+   gtk_widget_set_sensitive(GTK_WIDGET(CB_tema)   ,   0);
+   gtk_widget_set_sensitive(GTK_WIDGET(CB_subtema),   0);
+   gtk_widget_set_sensitive(GTK_WIDGET(CK_preguntas), 0);
+   gtk_toggle_button_set_active(CK_preguntas, TRUE);
+
+   gtk_widget_set_sensitive(BN_copia, 0);
+
+   gtk_widget_grab_focus (SC_ejercicio);
+}
+
+void Cambio_Ejercicio ()
+{
+  long int i, k;
+  int n;
+  char codigo[10];
+  char PG_command [1000];
+  char hilera[10];
+  char text   [2];
+  PGresult *res, *res_aux;
+
+  k = (long int) gtk_range_get_value (GTK_RANGE(SC_ejercicio));
+  sprintf (codigo, "%06ld", k);
+  gtk_entry_set_text(GTK_ENTRY(EN_codigo), codigo);
+  gtk_spin_button_set_value (SP_ejercicio, k);
+
+  sprintf (PG_command,"SELECT materia, tema, subtema, descripcion_ejercicio, texto_ejercicio from BD_ejercicios, BD_texto_ejercicios where codigo_ejercicio = '%s' and texto_ejercicio = consecutivo_texto", codigo);
+  res = PQEXEC(DATABASE, PG_command);
+  if (PQntuples(res))
+     {
+      Extrae_codigo (PQgetvalue (res, 0, 0), Materia_original);
+      Extrae_codigo (PQgetvalue (res, 0, 1), Tema_original);
+      Extrae_codigo (PQgetvalue (res, 0, 2), Subtema_original);
+
+      gtk_widget_set_sensitive(BN_ok, 1);
+
+      sprintf (PG_command,"SELECT descripcion_materia from BD_materias where codigo_materia = '%s' and codigo_tema = '          ' and codigo_subtema = '          '", 
+                          PQgetvalue (res, 0, 0));
+      res_aux = PQEXEC(DATABASE, PG_command);
+      if (PQntuples(res_aux))
+         gtk_entry_set_text(GTK_ENTRY(EN_materia), PQgetvalue (res_aux, 0, 0));
+      else
+         gtk_entry_set_text(GTK_ENTRY(EN_materia), "*** Materia Inválida ***");
+      PQclear(res_aux);
+
+      sprintf (PG_command,"SELECT descripcion_materia from BD_materias where codigo_materia = '%s' and codigo_tema = '%s' and codigo_subtema = '          '", 
+                          PQgetvalue (res, 0, 0), PQgetvalue (res, 0, 1));
+      res_aux = PQEXEC(DATABASE, PG_command);
+      if (PQntuples(res_aux))
+         gtk_entry_set_text(GTK_ENTRY(EN_tema), PQgetvalue (res_aux, 0, 0));
+      else
+         gtk_entry_set_text(GTK_ENTRY(EN_tema), "*** Tema Inválido ***");
+      PQclear(res_aux);
+
+      sprintf (PG_command,"SELECT descripcion_materia from BD_materias where codigo_materia = '%s' and codigo_tema = '%s' and codigo_subtema = '%s'", 
+                          PQgetvalue (res, 0, 0), PQgetvalue (res, 0, 1), PQgetvalue (res, 0, 2));
+      res_aux = PQEXEC(DATABASE, PG_command);
+      if (PQntuples(res_aux))
+         gtk_entry_set_text(GTK_ENTRY(EN_subtema), PQgetvalue (res_aux, 0, 0));
+      else
+         gtk_entry_set_text(GTK_ENTRY(EN_subtema), "*** Subtema Inválido ***");
+      PQclear(res_aux);
+
+      gtk_entry_set_text(GTK_ENTRY(EN_descripcion),       PQgetvalue (res, 0, 3));
+      gtk_entry_set_text(GTK_ENTRY(EN_descripcion_nueva), PQgetvalue (res, 0, 3));
+
+      sprintf (PG_command,"SELECT secuencia_pregunta from BD_texto_preguntas where codigo_consecutivo_ejercicio = '%s'", PQgetvalue (res, 0, 4));
+      res_aux = PQEXEC(DATABASE, PG_command);
+      n = PQntuples(res_aux);
+      PQclear(res_aux);
+
+      sprintf(hilera,"%3d", n);
+      gtk_entry_set_text(GTK_ENTRY(EN_preguntas), hilera);
+
+      strcpy (Codigo_texto_actual,PQgetvalue (res, 0, 4));
+     }
+  else
+     {
+      gtk_widget_set_sensitive(BN_ok, 0);
+      gtk_entry_set_text(GTK_ENTRY(EN_materia), " ");
+      gtk_entry_set_text(GTK_ENTRY(EN_tema),    " ");
+      gtk_entry_set_text(GTK_ENTRY(EN_subtema), " ");
+      gtk_entry_set_text(GTK_ENTRY(EN_descripcion), "Ejercicio no existe");
+     }
+
+  PQclear(res);
+}
+
+void Procesa_Ejercicio ()
+{
+  gtk_widget_set_sensitive(GTK_WIDGET(SC_ejercicio), 0);
+  gtk_widget_set_sensitive(GTK_WIDGET(SP_ejercicio), 0);
+  gtk_widget_set_sensitive(BN_ok, 0);
+
+  gtk_widget_set_sensitive(EN_descripcion_nueva,     1);
+  gtk_widget_set_sensitive(GTK_WIDGET(CB_materia),   1);
+  gtk_widget_set_sensitive(GTK_WIDGET(CB_tema)   ,   1);
+  gtk_widget_set_sensitive(GTK_WIDGET(CB_subtema),   1);
+  gtk_widget_set_sensitive(GTK_WIDGET(CK_preguntas), 1);
+
+  gtk_widget_set_sensitive(BN_copia, 1);
+
+  gtk_widget_grab_focus (EN_descripcion_nueva);
+
+  Set_Materia ();
+  Set_Tema    ();
+  Set_Subtema ();
+}
+
+void Set_Materia()
+{
+  int k;
+  gchar *materia;
+  char codigo_materia [CODIGO_SIZE + 1];
+
+  k = 0;
+  gtk_combo_box_set_active (CB_materia, k);
+  materia = gtk_combo_box_get_active_text(CB_materia);
+  Extrae_codigo (materia, codigo_materia);
+  g_free (materia);
+  while (strcmp(codigo_materia, Materia_original) != 0)
+        {
+	 k++;
+         gtk_combo_box_set_active (CB_materia, k);
+         materia = gtk_combo_box_get_active_text(CB_materia);
+         Extrae_codigo (materia, codigo_materia);
+         g_free (materia);
+        }
+}
+
+void Set_Tema()
+{
+  int k;
+  gchar *tema;
+  char codigo_tema [CODIGO_SIZE + 1];
+
+  k = 0;
+  gtk_combo_box_set_active (CB_tema, k);
+  tema = gtk_combo_box_get_active_text(CB_tema);
+  Extrae_codigo (tema, codigo_tema);
+  g_free (tema);
+  while (strcmp(codigo_tema, Tema_original) != 0)
+        {
+	 k++;
+         gtk_combo_box_set_active (CB_tema, k);
+         tema = gtk_combo_box_get_active_text(CB_tema);
+         Extrae_codigo (tema, codigo_tema);
+         g_free (tema);
+        }
+}
+
+void Set_Subtema()
+{
+  int k;
+  gchar *subtema;
+  char codigo_subtema [CODIGO_SIZE + 1];
+
+  k = 0;
+  gtk_combo_box_set_active (CB_subtema, k);
+  subtema = gtk_combo_box_get_active_text(CB_subtema);
+  Extrae_codigo (subtema, codigo_subtema);
+  g_free (subtema);
+  while (strcmp(codigo_subtema, Subtema_original) != 0)
+        {
+	 k++;
+         gtk_combo_box_set_active (CB_subtema, k);
+         subtema = gtk_combo_box_get_active_text(CB_subtema);
+         Extrae_codigo (subtema, codigo_subtema);
+         g_free (subtema);
+        }
+}
+
+void Cambio_Materia(GtkWidget *widget, gpointer user_data)
+{
+  int i;
+  gchar *materia;
+  char PG_command  [1000];
+  PGresult *res, *res_aux;
+  char codigo_materia [CODIGO_MATERIA_SIZE + 1];
+  char hilera[100];
+
+  materia = gtk_combo_box_get_active_text(CB_materia);
+
+  Extrae_codigo (materia, codigo_materia);
+
+  gtk_combo_box_set_active (CB_tema, -1);
+  for (i=0; i<N_temas; i++)
+      {
+       gtk_combo_box_remove_text (CB_tema, 0);
+      }
+
+  sprintf (PG_command,"SELECT codigo_tema, descripcion_materia from bd_materias where codigo_materia = '%s' and codigo_tema != '          ' and codigo_subtema = '          ' order by orden", codigo_materia);
+
+  res = PQEXEC(DATABASE, PG_command);
+  N_temas = PQntuples(res);
+
+  for (i=0; i < N_temas; i++)
+      {
+       sprintf (hilera,"%s %s", PQgetvalue (res, i, 0), PQgetvalue (res, i, 1));
+       gtk_combo_box_append_text(CB_tema, hilera);
+      }
+  PQclear(res);
+
+  gtk_widget_set_sensitive (GTK_WIDGET(CB_tema), 1);
+  gtk_widget_set_can_focus (GTK_WIDGET(CB_tema), TRUE);
+  gtk_combo_box_set_active (CB_tema, 0);
+  gtk_widget_grab_focus    (GTK_WIDGET(CB_tema));
+
+  g_free (materia);
+}
+
+void Cambio_Tema(GtkWidget *widget, gpointer user_data)
+{
+  int i;
+  gchar *materia, *tema = NULL;
+  char PG_command     [1000];
+  char codigo_materia [CODIGO_MATERIA_SIZE + 1];
+  char codigo_tema    [CODIGO_TEMA_SIZE    + 1];
+  char hilera[100];
+  PGresult *res;
+
+  materia = gtk_combo_box_get_active_text(CB_materia);
+  tema    = gtk_combo_box_get_active_text(CB_tema);
+
+  Extrae_codigo (materia, codigo_materia);
+  Extrae_codigo (tema,    codigo_tema);
+
+  for (i=0; i<N_subtemas; i++)
+      {
+       gtk_combo_box_remove_text (CB_subtema, 0);
+      }
+
+  sprintf (PG_command,"SELECT codigo_subtema, descripcion_materia from bd_materias where codigo_materia = '%s' and codigo_tema = '%s' and codigo_subtema != '          ' order by orden",
+                          codigo_materia, codigo_tema); 
+  res = PQEXEC(DATABASE, PG_command);
+  N_subtemas = PQntuples(res);
+  for (i=0; i < N_subtemas; i++)
+      {
+       sprintf (hilera,"%s %s", PQgetvalue (res, i, 0), PQgetvalue (res, i, 1));
+       gtk_combo_box_append_text(CB_subtema, hilera);
+      }
+  PQclear(res);
+
+  gtk_widget_set_sensitive (GTK_WIDGET(CB_subtema), 1);
+  gtk_widget_set_can_focus (GTK_WIDGET(CB_subtema), TRUE);
+  gtk_combo_box_set_active (CB_subtema, 0);
+  gtk_widget_grab_focus    (GTK_WIDGET(CB_subtema));
+
+  g_free (tema);
+  g_free (materia);
+}
+
+void Cambio_Subtema(GtkWidget *widget, gpointer user_data)
+{
+  gtk_widget_grab_focus (GTK_WIDGET(CB_materia));
+}
+
+void Extrae_codigo (char * hilera, char * codigo)
+{
+  int i;
+
+  i = 0;
+
+  while (hilera[i] != ' ') codigo [i] = hilera[i++];
+
+  codigo[i] = '\0';
+}
+
+void Hace_Copia (GtkWidget *widget, gpointer user_data)
+{
+   time_t curtime;
+   struct tm *loctime;
+
+   gchar *codigo_viejo, *descripcion, *materia, *tema, *subtema;
+   char codigo[10];
+   char codigo_materia [CODIGO_MATERIA_SIZE + 1];
+   char codigo_tema    [CODIGO_TEMA_SIZE    + 1];
+   char codigo_subtema [CODIGO_SUBTEMA_SIZE + 1];
+
+   char PG_command [30000], hilera[20];
+   long int Last;
+   int i, month, year, day;
+   int Next_pregunta;
+   int Next_texto;
+   int N_preguntas;
+   PGresult *res, *res_aux;
+   char * header_corregido;
+
+   /* Get the current time.  */
+   curtime = time (NULL);
+   /* Convert it to local time representation.  */
+   loctime = localtime (&curtime);
+
+   codigo_viejo = gtk_editable_get_chars(GTK_EDITABLE(EN_codigo)      ,      0, -1);
+   descripcion  = gtk_editable_get_chars(GTK_EDITABLE(EN_descripcion_nueva), 0, -1);
+   materia      = gtk_combo_box_get_active_text(CB_materia);
+   tema         = gtk_combo_box_get_active_text(CB_tema);
+   subtema      = gtk_combo_box_get_active_text(CB_subtema);
+
+   Extrae_codigo (materia, codigo_materia);
+   Extrae_codigo (tema   , codigo_tema);
+   Extrae_codigo (subtema, codigo_subtema);
+
+   res = PQEXEC(DATABASE, "BEGIN"); PQclear(res);
+   PQEXEC(DATABASE, "LOCK TABLE BD_ejercicios IN ACCESS EXCLUSIVE MODE");
+   PQEXEC(DATABASE, "LOCK TABLE BD_texto_ejercicios IN ACCESS EXCLUSIVE MODE");
+   PQEXEC(DATABASE, "LOCK TABLE BD_texto_preguntas IN ACCESS EXCLUSIVE MODE");
+
+   res = PQEXEC(DATABASE, "SELECT codigo_ejercicio, texto_ejercicio from BD_ejercicios order by codigo_ejercicio DESC limit 1");
+   if (PQntuples(res))
+      {
+       Last = atoi (PQgetvalue (res, 0, 0));
+       sprintf (codigo,"%06ld",Last+1);
+       gtk_entry_set_text(GTK_ENTRY(EN_codigo_nuevo), codigo);
+      }
+   else
+      { /* Este caso no debiera de darse */
+      }
+
+   res = PQEXEC(DATABASE, "DECLARE ultima_pregunta CURSOR FOR select codigo_unico_pregunta from BD_texto_preguntas order by codigo_unico_pregunta DESC"); PQclear(res);
+   res = PQEXEC(DATABASE, "FETCH 1 in ultima_pregunta");
+   Next_pregunta = 1;
+   if (PQntuples(res)) Next_pregunta = atoi (PQgetvalue (res, 0, 0)) + 1;
+   PQclear(res);
+   res = PQEXEC(DATABASE, "CLOSE ultima_pregunta");  PQclear(res);
+
+   res = PQEXEC(DATABASE, "DECLARE ultimo_texto    CURSOR FOR select consecutivo_texto from BD_texto_ejercicios order by consecutivo_texto DESC"); PQclear(res);
+   res = PQEXEC(DATABASE, "FETCH 1 in ultimo_texto");
+   Next_texto = 1;
+   if (PQntuples(res)) Next_texto = atoi (PQgetvalue (res, 0, 0)) + 1;
+   PQclear(res);
+   res = PQEXEC(DATABASE, "CLOSE ultimo_texto");  PQclear(res);
+
+   strftime (hilera, 100, "%m", loctime);
+   month = atoi(hilera);
+   strftime (hilera, 100, "%Y", loctime);
+   year  = atoi(hilera);
+   strftime (hilera, 100, "%d", loctime);
+   day   = atoi(hilera);
+
+   sprintf (PG_command,"SELECT * from bd_texto_ejercicios where consecutivo_texto = '%.6s'", Codigo_texto_actual);
+   res = PQEXEC(DATABASE, PG_command); 
+
+   header_corregido = (char *) malloc (sizeof(char) * strlen(PQgetvalue(res,0,5))*2);
+   hilera_POSTGRES (PQgetvalue(res,0,5), header_corregido);
+
+   sprintf (PG_command,"INSERT into bd_texto_ejercicios values ('%06d','%s', 1, '%s', %s, E'%s')",
+                        Next_texto, descripcion, PQgetvalue( res, 0, 3), 
+                        *PQgetvalue (res, 0, 4)=='t'?"TRUE":"FALSE", header_corregido);
+   PQclear(res);
+   free (header_corregido);
+   res = PQEXEC(DATABASE, PG_command); PQclear(res);
+
+   sprintf (PG_command,"SELECT * from bd_ejercicios where codigo_ejercicio = '%.6s'", codigo_viejo);
+   res = PQEXEC(DATABASE, PG_command); 
+
+   sprintf (PG_command,"INSERT into bd_ejercicios values ('%.6s','%s','%s','%s',%d,%d,%d, %s,'Copia del ejercicio %.6s','%06d', '%c','%c','%c','%c','%c','%c','%c','%c',%d)", 
+	    codigo,codigo_materia,codigo_tema,codigo_subtema, year, month, day, *PQgetvalue (res, 0, 7)=='t'? "TRUE":"FALSE", codigo_viejo, Next_texto,
+	    *PQgetvalue (res, 0, 10), *PQgetvalue (res, 0, 11), *PQgetvalue (res, 0, 12), *PQgetvalue (res, 0, 13),
+            *PQgetvalue (res, 0, 14), *PQgetvalue (res, 0, 15), *PQgetvalue (res, 0, 16), *PQgetvalue (res, 0, 17), 
+	    atoi(PQgetvalue (res, 0, 18))); 
+   PQclear(res);
+   res = PQEXEC(DATABASE, PG_command); PQclear(res);
+
+   if (gtk_toggle_button_get_active(CK_preguntas)) Copia_Preguntas (Next_texto, Next_pregunta, year, month, day);
+
+   res = PQEXEC(DATABASE, "END"); PQclear(res);
+
+   g_free (codigo_viejo);
+   g_free (descripcion);
+   g_free (materia);
+   g_free (tema);
+   g_free (subtema);
+
+   Init_Fields ();
+
+   carga_parametros_EXAMINER (&parametros, DATABASE);
+   if (parametros.report_update)
+      {
+       gtk_widget_set_sensitive(window1, 0);
+       gtk_widget_show (window2);
+
+       if (parametros.timeout)
+          {
+           while (gtk_events_pending ()) gtk_main_iteration ();
+           catNap(parametros.timeout);
+           gtk_widget_hide (window2);
+           gtk_widget_set_sensitive(window1, 1);
+	  }
+      }
+}
+
+void Copia_Preguntas (int Next_texto, int Next_pregunta, int year, int month, int day)
+{
+   int i, N_preguntas;
+   char PG_command [30000];
+   char * pregunta_corregida;
+   char * opcionA_corregida;
+   char * opcionB_corregida;
+   char * opcionC_corregida;
+   char * opcionD_corregida;
+   char * opcionE_corregida;
+   long double dificultad, varianza;
+
+   sprintf (PG_command,"SELECT * from bd_texto_preguntas where codigo_consecutivo_ejercicio = '%.6s' order by secuencia_pregunta", Codigo_texto_actual);
+   res = PQEXEC(DATABASE, PG_command);
+   N_preguntas = PQntuples(res);
+
+   for (i=0; i<N_preguntas; i++)
+       {
+        pregunta_corregida = (char *) malloc (sizeof(char) * strlen(PQgetvalue(res,i,8))*2);
+        hilera_POSTGRES (PQgetvalue(res,i,8), pregunta_corregida);
+
+        opcionA_corregida  = (char *) malloc (sizeof(char) * strlen(PQgetvalue(res,i,9))*2);
+        hilera_POSTGRES (PQgetvalue(res,i,9), opcionA_corregida);
+
+        opcionB_corregida  = (char *) malloc (sizeof(char) * strlen(PQgetvalue(res,i,10))*2);
+        hilera_POSTGRES (PQgetvalue(res,i,10), opcionB_corregida);
+
+        opcionC_corregida  = (char *) malloc (sizeof(char) * strlen(PQgetvalue(res,i,11))*2);
+        hilera_POSTGRES (PQgetvalue(res,i,11), opcionC_corregida);
+
+        opcionD_corregida  = (char *) malloc (sizeof(char) * strlen(PQgetvalue(res,i,12))*2);
+        hilera_POSTGRES (PQgetvalue(res,i,12), opcionD_corregida);
+
+        opcionE_corregida  = (char *) malloc (sizeof(char) * strlen(PQgetvalue(res,i,13))*2);
+        hilera_POSTGRES (PQgetvalue(res,i,13), opcionE_corregida);
+
+	dificultad = (long double) atof(PQgetvalue(res,i,7));
+
+        sprintf (PG_command,"INSERT into bd_texto_preguntas values ('%06d','%1d','%06d','%c',%d,%d,%d,%Lf,E'%s',E'%s',E'%s',E'%s',E'%s',E'%s','%c','%.5s')",
+                 Next_texto,
+                 i+1,
+                 Next_pregunta + i,
+                 *PQgetvalue(res,i,3),
+                 year,
+                 month,
+                 day,
+                 dificultad,
+                 pregunta_corregida,
+		 opcionA_corregida,
+		 opcionB_corregida,
+		 opcionC_corregida,
+		 opcionD_corregida,
+		 opcionE_corregida,
+                 *PQgetvalue(res,i,14),
+                 PQgetvalue(res,i,15));
+
+        res_aux = PQEXEC(DATABASE, PG_command); PQclear(res_aux);
+
+        sprintf (PG_command,"SELECT dificultad, varianza_dificultad from bd_estadisticas_preguntas where pregunta = '%.6s'", PQgetvalue(res,i,2)); 
+        res_aux = PQEXEC(DATABASE, PG_command); 
+
+	dificultad = atof(PQgetvalue(res_aux,0,0)); 
+	varianza   = atof(PQgetvalue(res_aux,0,1)); 
+        PQclear(res_aux);
+
+        /* Registro vacío de estadísticas - solo conservamos la dificultad y varianza observados en la pregunta original */
+        sprintf (PG_command,"INSERT into bd_estadisticas_preguntas values ('%06d',0,0,0,'00000',0,0,0.0,0.0,0.0, %Lf, %Lf, 0.0, 0.0, 0.0, 0, 0,  0.0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",
+ 	         Next_pregunta+i, dificultad, varianza);
+        res_aux = PQEXEC(DATABASE, PG_command); PQclear(res_aux);
+
+	free(pregunta_corregida);
+	free(opcionA_corregida);
+	free(opcionB_corregida);
+	free(opcionC_corregida);
+	free(opcionD_corregida);
+	free(opcionE_corregida);
+       }
+
+   PQclear(res);
+}
+
+void Fin_de_Programa (GtkWidget *widget, gpointer user_data)
+{
+   /* close the connection to the database and cleanup */
+   PQfinish(DATABASE);
+   gtk_main_quit ();
+   exit (0);
+}
+
+void Fin_Ventana (GtkWidget *widget, gpointer user_data)
+{
+  /* close the connection to the database and cleanup */
+
+  PQfinish(DATABASE);
+  gtk_main_quit ();
+  exit (0);
+}
+
+/***********************/
+/*  Interface Hookups  */
+/***********************/
+void on_WN_ex2060_destroy (GtkWidget *widget, gpointer user_data) 
+{
+  Fin_Ventana (widget, user_data);
+}
+
+void on_BN_terminar_clicked(GtkWidget *widget, gpointer user_data)
+{
+  Fin_de_Programa (widget, user_data);
+}
+
+void on_BN_undo_clicked(GtkWidget *widget, gpointer user_data)
+{
+  Init_Fields ();
+}
+
+void on_BN_copia_clicked(GtkWidget *widget, gpointer user_data)
+{
+  Hace_Copia (widget, user_data);
+}
+
+void on_CB_materia_changed(GtkWidget *widget, gpointer user_data)
+{
+  gchar * materia;
+
+  materia = gtk_combo_box_get_active_text(CB_materia);
+
+  if (materia)
+     {
+      g_free (materia);
+      Cambio_Materia (widget, user_data);
+     }
+  else
+     g_free (materia);
+}
+
+void on_CB_tema_changed(GtkWidget *widget, gpointer user_data)
+{
+  gchar * tema;
+
+  tema = gtk_combo_box_get_active_text(CB_tema);
+
+  if (tema)
+     {
+      g_free (tema);
+      Cambio_Tema (widget, user_data);
+     }
+  else
+     g_free (tema);
+}
+
+void on_CB_subtema_changed(GtkWidget *widget, gpointer user_data)
+{
+  gchar * subtema;
+
+  subtema = gtk_combo_box_get_active_text(CB_subtema);
+
+  if (subtema)
+     {
+      g_free (subtema);
+      Cambio_Subtema (widget, user_data);
+     }
+  else
+     g_free (subtema);
+}
+
+void on_SC_ejercicio_value_changed(GtkWidget *widget, gpointer user_data)
+{
+  long int k;
+
+  k = (long int) gtk_range_get_value (GTK_RANGE(SC_ejercicio));
+  if (k)  Cambio_Ejercicio ();
+}
+
+void on_BN_ok_clicked(GtkWidget *widget, gpointer user_data)
+{
+  Procesa_Ejercicio ();
+}
+
+void on_SP_ejercicio_value_changed(GtkWidget *widget, gpointer user_data)
+{
+  long int k;
+
+  k = (long int) gtk_spin_button_get_value_as_int (SP_ejercicio);
+  gtk_range_set_value (GTK_RANGE(SC_ejercicio), (gdouble) k);
+}
+
+void on_SP_ejercicio_activate(GtkWidget *widget, gpointer user_data)
+{
+  long int k;
+  gchar * codigo;
+
+  codigo = gtk_editable_get_chars(GTK_EDITABLE(SP_ejercicio), 0, -1);
+  k = atoi(codigo);
+  g_free(codigo);
+
+  gtk_range_set_value (GTK_RANGE(SC_ejercicio), (gdouble) k);
+  Procesa_Ejercicio ();
+}
+
+void on_BN_ok_copia_clicked(GtkWidget *widget, gpointer user_data)
+{
+  gtk_widget_hide (window2);
+  gtk_widget_set_sensitive(window1, 1);
+}
+

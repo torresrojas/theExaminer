@@ -1,0 +1,3067 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.0 -->
+  <!-- interface-naming-policy toplevel-contextual -->
+  <!-- interface-local-resource-path ../.imagenes -->
+  <object class="GtkWindow" id="WN_beamer">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Parámetros de Ejecución - Presentaciones Beamer</property>
+    <property name="window_position">center-always</property>
+    <property name="icon">../.imagenes/EX1000.png</property>
+    <signal name="destroy" handler="on_BN_ok6_clicked" swapped="no"/>
+    <child>
+      <object class="GtkEventBox" id="EB_beamer">
+        <property name="width_request">541</property>
+        <property name="height_request">180</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_beamer">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="label_yalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment24">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed22">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkComboBox" id="CB_estilo">
+                        <property name="width_request">200</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="model">liststore4</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext2"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">62</property>
+                        <property name="y">40</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="CB_color">
+                        <property name="width_request">200</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="model">liststore6</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext3"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">330</property>
+                        <property name="y">40</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="CB_font">
+                        <property name="width_request">200</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="model">liststore5</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext4"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">62</property>
+                        <property name="y">75</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="CB_size">
+                        <property name="width_request">200</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="model">liststore7</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext5"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">330</property>
+                        <property name="y">75</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label36">
+                        <property name="width_request">55</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Estilo:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">3</property>
+                        <property name="y">40</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label38">
+                        <property name="width_request">55</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Color:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">272</property>
+                        <property name="y">40</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label40">
+                        <property name="width_request">55</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Font:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">3</property>
+                        <property name="y">75</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label48">
+                        <property name="width_request">55</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Tamaño:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">272</property>
+                        <property name="y">75</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_ok6">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image17</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_ok6_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">475</property>
+                        <property name="y">113</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="CB_aspecto">
+                        <property name="width_request">200</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="model">liststore8</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext6"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">62</property>
+                        <property name="y">110</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label50">
+                        <property name="width_request">55</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Aspecto:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">3</property>
+                        <property name="y">110</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label41">
+                        <property name="width_request">321</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="white"&gt;Parámetros para Presentaciones Beamer&lt;/span&gt;&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">110</property>
+                        <property name="y">5</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_datos">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Parámetros de Ejecución - Datos</property>
+    <property name="window_position">center-always</property>
+    <property name="icon">../.imagenes/EX1000.png</property>
+    <signal name="destroy" handler="on_BN_ok3_clicked" swapped="no"/>
+    <child>
+      <object class="GtkEventBox" id="EB_datos">
+        <property name="width_request">516</property>
+        <property name="height_request">423</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_datos">
+            <property name="width_request">516</property>
+            <property name="height_request">345</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="label_yalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed5">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkEntry" id="EN_institucion">
+                        <property name="width_request">385</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Nombre de la Institución que aparecerá en todos los documentos generados por el sistema</property>
+                        <property name="tooltip_text" translatable="yes">Nombre de la Institución que aparecerá en todos los documentos generados por el sistema</property>
+                        <property name="invisible_char">●</property>
+                        <property name="width_chars">20</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">118</property>
+                        <property name="y">35</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label23">
+                        <property name="width_request">105</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Institución:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">9</property>
+                        <property name="y">35</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_escuela">
+                        <property name="width_request">385</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Escuela dentro de la Institución</property>
+                        <property name="tooltip_text" translatable="yes">Escuela dentro de la Institución</property>
+                        <property name="invisible_char">●</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">118</property>
+                        <property name="y">65</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_programa">
+                        <property name="width_request">385</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Programa de Estudios o Carrera perteneciete a la Escuela</property>
+                        <property name="tooltip_text" translatable="yes">Programa de Estudios o Carrera perteneciete a la Escuela</property>
+                        <property name="invisible_char">●</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">118</property>
+                        <property name="y">95</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label24">
+                        <property name="width_request">105</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Escuela:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">9</property>
+                        <property name="y">65</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label25">
+                        <property name="width_request">105</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Programa:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">9</property>
+                        <property name="y">95</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label33">
+                        <property name="width_request">105</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Instrucciones:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">9</property>
+                        <property name="y">130</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="FR_instrucciones">
+                        <property name="width_request">385</property>
+                        <property name="height_request">105</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">etched-out</property>
+                        <child>
+                          <object class="GtkAlignment" id="alignment5">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkTextView" id="TV_instrucciones">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="tooltip_markup">Instrucciones de como se debe llenar el examen</property>
+                                <property name="tooltip_text" translatable="yes">Instrucciones de como se debe llenar el examen</property>
+                                <property name="wrap_mode">word-char</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label_item">
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">118</property>
+                        <property name="y">130</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="FR_juramento">
+                        <property name="width_request">385</property>
+                        <property name="height_request">105</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">etched-out</property>
+                        <child>
+                          <object class="GtkAlignment" id="alignment6">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkTextView" id="TV_juramento">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="tooltip_markup">Juramento respecto a las reglas del examen</property>
+                                <property name="tooltip_text" translatable="yes">Juramento respecto a las reglas del examen</property>
+                                <property name="wrap_mode">word-char</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label_item">
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">118</property>
+                        <property name="y">245</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label35">
+                        <property name="width_request">105</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Juramento:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">9</property>
+                        <property name="y">245</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_ok3">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image10</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_ok3_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">449</property>
+                        <property name="y">356</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label22">
+                        <property name="width_request">100</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;&lt;b&gt;Datos&lt;/b&gt;&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">208</property>
+                        <property name="y">10</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_destino_reporte">
+    <property name="can_focus">False</property>
+    <property name="type">popup</property>
+    <property name="title" translatable="yes">Destino de Reporte</property>
+    <property name="window_position">center-always</property>
+    <child>
+      <object class="GtkEventBox" id="EB_destino_reporte">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_destino_reporte">
+            <property name="width_request">516</property>
+            <property name="height_request">110</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment25">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed23">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="label42">
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;&lt;b&gt;Copia de este reporte disponible en:&lt;/b&gt;&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">5</property>
+                        <property name="y">5</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_ok7">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image20</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_ok7_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">450</property>
+                        <property name="y">5</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label43">
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;&lt;b&gt;Fuente de LATEX de este reporte disponible en:&lt;/b&gt;&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">5</property>
+                        <property name="y">55</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="LB_destino_reporte">
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">label</property>
+                      </object>
+                      <packing>
+                        <property name="x">5</property>
+                        <property name="y">25</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="LB_destino_LATEX">
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">label</property>
+                      </object>
+                      <packing>
+                        <property name="x">5</property>
+                        <property name="y">75</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_directorios">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Parámetros de Ejecución - Directorios</property>
+    <property name="window_position">center-always</property>
+    <property name="icon">../.imagenes/EX1000.png</property>
+    <signal name="destroy" handler="on_BN_ok1_clicked" swapped="no"/>
+    <child>
+      <object class="GtkEventBox" id="EB_directorios">
+        <property name="width_request">770</property>
+        <property name="height_request">314</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_directorios">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="label_yalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed4">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFileChooserButton" id="FC_reportes">
+                        <property name="width_request">45</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Directorio donde se almacenan copias
+de todos los reportes generados por
+el sistema</property>
+                        <property name="tooltip_text" translatable="yes">Directorio donde se almacenan copias
+de todos los reportes generados por
+el sistema</property>
+                        <property name="action">select-folder</property>
+                        <property name="show_hidden">True</property>
+                        <property name="use_preview_label">False</property>
+                        <property name="title" translatable="yes">Directorio para almacenar Reportes</property>
+                        <property name="width_chars">0</property>
+                        <signal name="current-folder-changed" handler="on_FC_reportes_current_folder_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">713</property>
+                        <property name="y">75</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label9">
+                        <property name="width_request">105</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Reportes:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">9</property>
+                        <property name="y">75</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label10">
+                        <property name="width_request">105</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Fuentes Latex:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">9</property>
+                        <property name="y">110</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFileChooserButton" id="FC_latex">
+                        <property name="width_request">45</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Directorio donde se almacenan los
+fuentes de LATEX de todos los reportes
+generados por el sistema</property>
+                        <property name="tooltip_text" translatable="yes">Directorio donde se almacenan los
+fuentes de LATEX de todos los reportes
+generados por el sistema</property>
+                        <property name="action">select-folder</property>
+                        <property name="show_hidden">True</property>
+                        <property name="title" translatable="yes">Directorio para almacenar fuentes de latex de reportes generados</property>
+                        <signal name="current-folder-changed" handler="on_FC_latex_current_folder_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">713</property>
+                        <property name="y">110</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label12">
+                        <property name="width_request">105</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Exámenes:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">9</property>
+                        <property name="y">40</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFileChooserButton" id="FC_examenes">
+                        <property name="width_request">45</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Directorio donde se almacenan los enunciados,
+soluciones y análisis de los exámenes</property>
+                        <property name="tooltip_text" translatable="yes">Directorio donde se almacenan los enunciados,
+soluciones y análisis de los exámenes</property>
+                        <property name="action">select-folder</property>
+                        <property name="show_hidden">True</property>
+                        <property name="title" translatable="yes">Directorio para almacenar exámenes (enunciados, soluciones, etc.)</property>
+                        <signal name="current-folder-changed" handler="on_FC_examenes_current_folder_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">713</property>
+                        <property name="y">40</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFileChooserButton" id="FC_figuras">
+                        <property name="width_request">45</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Directorio desde donde se toman las
+figuras y gráficos usados en los exámenes</property>
+                        <property name="tooltip_text" translatable="yes">Directorio desde donde se toman las
+figuras y gráficos usados en los exámenes</property>
+                        <property name="action">select-folder</property>
+                        <property name="show_hidden">True</property>
+                        <property name="title" translatable="yes">Directorio donde se almacenan las figuras que se usan en las preguntas</property>
+                        <signal name="current-folder-changed" handler="on_FC_figuras_current_folder_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">713</property>
+                        <property name="y">215</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label15">
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Figuras:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">64</property>
+                        <property name="y">215</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label16">
+                        <property name="width_request">105</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Fuentes gnuplot:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">9</property>
+                        <property name="y">145</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFileChooserButton" id="FC_gnuplot">
+                        <property name="width_request">45</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Directorio donde se almacenan todos
+los scripts de gnuplot generados</property>
+                        <property name="tooltip_text" translatable="yes">Directorio donde se almacenan todos
+los scripts de gnuplot generados</property>
+                        <property name="action">select-folder</property>
+                        <property name="show_hidden">True</property>
+                        <property name="title" translatable="yes">Directorio donde se conservarán los fuentes de gnuplot generados</property>
+                        <signal name="current-folder-changed" handler="on_FC_gnuplot_current_folder_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">713</property>
+                        <property name="y">145</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label32">
+                        <property name="width_request">105</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Respaldos:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">9</property>
+                        <property name="y">180</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFileChooserButton" id="FC_backup">
+                        <property name="width_request">45</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Directorio donde se guardan los respaldos
+de la base de datos y las imágenes asociadas</property>
+                        <property name="tooltip_text" translatable="yes">Directorio donde se guardan los respaldos
+de la base de datos y las imágenes asociadas</property>
+                        <property name="action">select-folder</property>
+                        <property name="show_hidden">True</property>
+                        <property name="title" translatable="yes">Directorio de respaldos de datos</property>
+                        <signal name="current-folder-changed" handler="on_FC_backup_current_folder_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">713</property>
+                        <property name="y">180</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="CK_figuras">
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Indicar si se utilizarán figuras en el código LATEX
+de las preguntas de la Base de Datos</property>
+                        <property name="tooltip_text" translatable="yes">Indicar si se utilizarán figuras en el código LATEX
+de las preguntas de la Base de Datos</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="xalign">0</property>
+                        <property name="draw_indicator">True</property>
+                        <signal name="toggled" handler="on_CK_figuras_toggled" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">41</property>
+                        <property name="y">215</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_examenes">
+                        <property name="width_request">589</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Directorio donde se almacenan los enunciados,
+soluciones y análisis de los exámenes</property>
+                        <property name="tooltip_text" translatable="yes">Directorio donde se almacenan los enunciados,
+soluciones y análisis de los exámenes</property>
+                        <property name="invisible_char">●</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">118</property>
+                        <property name="y">40</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_reportes">
+                        <property name="width_request">589</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup"> </property>
+                        <property name="tooltip_text" translatable="yes"> </property>
+                        <property name="invisible_char">●</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">118</property>
+                        <property name="y">75</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_latex">
+                        <property name="width_request">589</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Directorio donde se almacenan los
+fuentes de LATEX de todos los reportes
+generados por el sistema</property>
+                        <property name="tooltip_text" translatable="yes">Directorio donde se almacenan los
+fuentes de LATEX de todos los reportes
+generados por el sistema</property>
+                        <property name="invisible_char">●</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">118</property>
+                        <property name="y">110</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_gnuplot_path">
+                        <property name="width_request">589</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Directorio donde se almacenan todos
+los scripts de gnuplot generados</property>
+                        <property name="tooltip_text" translatable="yes">Directorio donde se almacenan todos
+los scripts de gnuplot generados</property>
+                        <property name="invisible_char">●</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">118</property>
+                        <property name="y">145</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_backup">
+                        <property name="width_request">589</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Directorio donde se guardan los respaldos
+de la base de datos y las imágenes asociadas</property>
+                        <property name="tooltip_text" translatable="yes">Directorio donde se guardan los respaldos
+de la base de datos y las imágenes asociadas</property>
+                        <property name="invisible_char">●</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">118</property>
+                        <property name="y">180</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_figuras">
+                        <property name="width_request">589</property>
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Directorio desde donde se toman las
+figuras y gráficos usados en los exámenes</property>
+                        <property name="tooltip_text" translatable="yes">Directorio desde donde se toman las
+figuras y gráficos usados en los exámenes</property>
+                        <property name="invisible_char">●</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">118</property>
+                        <property name="y">215</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_ok1">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image7</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_ok1_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">702</property>
+                        <property name="y">250</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label3">
+                        <property name="width_request">300</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="white"&gt;Configuración de Directorios&lt;/span&gt;&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">235</property>
+                        <property name="y">10</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_ex1000">
+    <property name="width_request">446</property>
+    <property name="height_request">303</property>
+    <property name="can_focus">False</property>
+    <property name="tooltip_markup">Actualiza parámetros de ejecución
+de &lt;i&gt;The Examiner&lt;/i&gt;</property>
+    <property name="title" translatable="yes">The Examiner - Parámetros de Ejecución</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center-always</property>
+    <property name="default_width">100</property>
+    <property name="default_height">100</property>
+    <property name="icon">../.imagenes/EX1000.png</property>
+    <signal name="destroy" handler="on_WN_ex1000_destroy" swapped="no"/>
+    <child>
+      <object class="GtkFixed" id="fixed1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkImage" id="image5">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="pixbuf">../.imagenes/EX1000.png</property>
+          </object>
+          <packing>
+            <property name="x">6</property>
+            <property name="y">6</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="white"&gt;Parámetros 
+de Ejecución&lt;/span&gt;&lt;/b&gt;</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="x">45</property>
+            <property name="y">7</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFrame" id="FR_botones">
+            <property name="width_request">212</property>
+            <property name="height_request">55</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment7">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed6">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkImage" id="image2">
+                        <property name="width_request">207</property>
+                        <property name="height_request">51</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="pixbuf">../.imagenes/empty.png</property>
+                      </object>
+                      <packing>
+                        <property name="x">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_save">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Actualiza los parámetros de ejecución</property>
+                        <property name="tooltip_text" translatable="yes">Actualiza los parámetros de ejecución</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image1</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_save_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">-2</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_undo">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Reinicia parámetros al último valor grabado</property>
+                        <property name="tooltip_text" translatable="yes">Reinicia parámetros al último valor grabado</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image4</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_undo_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">102</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_terminar">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Sale del programa.</property>
+                        <property name="tooltip_text" translatable="yes">Sale del programa.</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image3</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_terminar_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">154</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_print">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_text" translatable="yes">Despliega reporte de parámetros</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image6</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_print_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">50</property>
+                        <property name="y">-2</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="x">228</property>
+            <property name="y">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="EB_cambia_directorios">
+            <property name="width_request">212</property>
+            <property name="height_request">74</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkFrame" id="FR_cambia_directorios">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label_xalign">0</property>
+                <property name="label_yalign">0</property>
+                <property name="shadow_type">etched-out</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment10">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFixed" id="fixed8">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkButton" id="BN_directorios">
+                            <property name="width_request">208</property>
+                            <property name="height_request">70</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
+                            <signal name="clicked" handler="on_BN_directorios_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="y">-15</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label14">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">&lt;span font_desc="Arial 10"&gt;Directorios donde se conservarán
+los documentos generados&lt;/span&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">5</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label4">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Directorios&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="x">228</property>
+            <property name="y">62</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="EB_cambia_interfaz">
+            <property name="width_request">212</property>
+            <property name="height_request">74</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkFrame" id="FR_cambia_interfaz">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label_xalign">0</property>
+                <property name="label_yalign">0</property>
+                <property name="shadow_type">etched-out</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment11">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFixed" id="fixed9">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkButton" id="BN_interfaz">
+                            <property name="width_request">208</property>
+                            <property name="height_request">70</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
+                            <signal name="clicked" handler="on_BN_interfaz_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="y">-15</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label17">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">&lt;span font_desc="Arial 10"&gt;Interfaz principal, decoración, mos-
+trar rutas de informes y exámenes&lt;/span&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">5</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label7">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Interacción&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="x">6</property>
+            <property name="y">62</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="EB_cambia_programas">
+            <property name="width_request">212</property>
+            <property name="height_request">74</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkFrame" id="FR_cambia_programas">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label_xalign">0</property>
+                <property name="label_yalign">0</property>
+                <property name="shadow_type">etched-out</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment12">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFixed" id="fixed10">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkButton" id="BN_programas">
+                            <property name="width_request">208</property>
+                            <property name="height_request">70</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
+                            <signal name="clicked" handler="on_BN_programas_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="y">-15</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label19">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">&lt;span font_desc="Arial 10"&gt;Nombres de los programas que
+ejecutan diversas tareas&lt;/span&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">5</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label8">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Programas&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="x">6</property>
+            <property name="y">142</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="EB_cambia_datos">
+            <property name="width_request">212</property>
+            <property name="height_request">74</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkFrame" id="FR_cambia_datos">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label_xalign">0</property>
+                <property name="label_yalign">0</property>
+                <property name="shadow_type">etched-out</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment13">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFixed" id="fixed11">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkButton" id="BN_datos">
+                            <property name="width_request">208</property>
+                            <property name="height_request">70</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
+                            <signal name="clicked" handler="on_BN_datos_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="y">-15</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label21">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">&lt;span font_desc="Arial 10"&gt;Información repetitiva que aparece
+en documentos y reportes&lt;/span&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">5</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label11">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Datos&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="x">228</property>
+            <property name="y">142</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="EB_cambia_latex">
+            <property name="width_request">212</property>
+            <property name="height_request">74</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkFrame" id="FR_cambia_latex">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label_xalign">0</property>
+                <property name="label_yalign">0</property>
+                <property name="shadow_type">etched-out</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment14">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFixed" id="fixed12">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkButton" id="BN_latex">
+                            <property name="width_request">208</property>
+                            <property name="height_request">70</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
+                            <signal name="clicked" handler="on_BN_latex_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="y">-15</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label26">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">&lt;span font_desc="Arial 10"&gt;Código LATEX adicional que se
+incluye en todos los documentos
+generados (e.g. &lt;i&gt;packages&lt;/i&gt;)&lt;/span&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">5</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label13">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Código LATEX&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="x">6</property>
+            <property name="y">222</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="EB_cambia_beamer">
+            <property name="width_request">212</property>
+            <property name="height_request">74</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkFrame" id="FR_cambia_beamer">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label_xalign">0</property>
+                <property name="label_yalign">0</property>
+                <property name="shadow_type">etched-out</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment23">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFixed" id="fixed21">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkButton" id="BN_beamer">
+                            <property name="width_request">208</property>
+                            <property name="height_request">70</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
+                            <signal name="clicked" handler="on_BN_beamer_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="y">-15</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label31">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">&lt;span font_desc="Arial 10"&gt;Características por defecto de las
+presentaciones &lt;i&gt;Beamer&lt;/i&gt; generadas
+por el software.&lt;/span&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">5</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label34">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Presentaciones &lt;i&gt;Beamer&lt;/i&gt;&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="x">228</property>
+            <property name="y">222</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_interfaz">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Parámetros de Ejecución - Interfaz Inicial</property>
+    <property name="window_position">center-always</property>
+    <property name="icon">../.imagenes/EX1000.png</property>
+    <signal name="destroy" handler="on_BN_ok5_clicked" swapped="no"/>
+    <child>
+      <object class="GtkEventBox" id="EB_interfaz">
+        <property name="width_request">673</property>
+        <property name="height_request">463</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_interfaz">
+            <property name="width_request">0</property>
+            <property name="height_request">0</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="label_yalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment15">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed13">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="label37">
+                        <property name="width_request">401</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="white"&gt;Interacción&lt;/span&gt;&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">136</property>
+                        <property name="y">10</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_ok5">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image13</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_ok5_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">606</property>
+                        <property name="y">397</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEventBox" id="EB_interaccion">
+                        <property name="width_request">446</property>
+                        <property name="height_request">358</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkFrame" id="FR_interaccion">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label_xalign">0</property>
+                            <property name="label_yalign">0</property>
+                            <property name="shadow_type">etched-out</property>
+                            <child>
+                              <object class="GtkAlignment" id="alignment21">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkFixed" id="fixed19">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <child>
+                                      <object class="GtkRadioButton" id="RB_EX">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="xalign">0.0099999997764825821</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_RB_interaccion_toggled" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="x">10</property>
+                                        <property name="y">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFrame" id="FR_EX">
+                                        <property name="width_request">174</property>
+                                        <property name="height_request">128</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label_xalign">0</property>
+                                        <property name="shadow_type">etched-out</property>
+                                        <child>
+                                          <object class="GtkAlignment" id="alignment17">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <child>
+                                              <object class="GtkFixed" id="fixed15">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <child>
+                                                  <object class="GtkImage" id="image15">
+                                                    <property name="width_request">170</property>
+                                                    <property name="height_request">124</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="pixbuf">../.imagenes/EX.jpg</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child type="label_item">
+                                          <placeholder/>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="x">10</property>
+                                        <property name="y">21</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkRadioButton" id="RB_EXZ">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="xalign">0.0099999997764825821</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <property name="group">RB_EX</property>
+                                        <signal name="toggled" handler="on_RB_interaccion_toggled" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="x">200</property>
+                                        <property name="y">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFrame" id="FR_EXZ">
+                                        <property name="width_request">232</property>
+                                        <property name="height_request">131</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label_xalign">0</property>
+                                        <property name="shadow_type">etched-out</property>
+                                        <child>
+                                          <object class="GtkAlignment" id="alignment20">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <child>
+                                              <object class="GtkFixed" id="fixed18">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <child>
+                                                  <object class="GtkImage" id="image18">
+                                                    <property name="width_request">228</property>
+                                                    <property name="height_request">127</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="pixbuf">../.imagenes/EX-Z.jpg</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child type="label_item">
+                                          <placeholder/>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="x">200</property>
+                                        <property name="y">21</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkRadioButton" id="RB_EXT">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="xalign">0.0099999997764825821</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <property name="group">RB_EX</property>
+                                        <signal name="toggled" handler="on_RB_interaccion_toggled" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="x">10</property>
+                                        <property name="y">159</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFrame" id="FR_EXT">
+                                        <property name="width_request">174</property>
+                                        <property name="height_request">128</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label_xalign">0</property>
+                                        <property name="shadow_type">etched-out</property>
+                                        <child>
+                                          <object class="GtkAlignment" id="alignment18">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <child>
+                                              <object class="GtkFixed" id="fixed16">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <child>
+                                                  <object class="GtkImage" id="image16">
+                                                    <property name="width_request">170</property>
+                                                    <property name="height_request">124</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="pixbuf">../.imagenes/EX-T.jpg</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child type="label_item">
+                                          <placeholder/>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="x">10</property>
+                                        <property name="y">179</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkRadioButton" id="RB_EXO">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="xalign">0.0099999997764825821</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <property name="group">RB_EX</property>
+                                        <signal name="toggled" handler="on_RB_interaccion_toggled" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="x">200</property>
+                                        <property name="y">159</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFrame" id="FR_EXO">
+                                        <property name="width_request">218</property>
+                                        <property name="height_request">154</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label_xalign">0</property>
+                                        <property name="shadow_type">etched-out</property>
+                                        <child>
+                                          <object class="GtkAlignment" id="alignment22">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <child>
+                                              <object class="GtkFixed" id="fixed20">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <child>
+                                                  <object class="GtkImage" id="image19">
+                                                    <property name="width_request">214</property>
+                                                    <property name="height_request">150</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="pixbuf">../.imagenes/EX-O.jpg</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child type="label_item">
+                                          <placeholder/>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="x">200</property>
+                                        <property name="y">179</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel" id="label28">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="white"&gt;Interfaz Inicial&lt;/span&gt;&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">10</property>
+                        <property name="y">35</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEventBox" id="EB_decoracion">
+                        <property name="width_request">194</property>
+                        <property name="height_request">190</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkFrame" id="FR_decoracion">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label_xalign">0</property>
+                            <property name="label_yalign">0</property>
+                            <property name="shadow_type">etched-out</property>
+                            <child>
+                              <object class="GtkAlignment" id="alignment19">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkFixed" id="fixed17">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <child>
+                                      <object class="GtkHScale" id="SC_decoracion">
+                                        <property name="width_request">170</property>
+                                        <property name="height_request">27</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="adjustment">adjustment1</property>
+                                        <property name="round_digits">0</property>
+                                        <property name="digits">0</property>
+                                        <property name="value_pos">right</property>
+                                        <signal name="value-changed" handler="on_SC_decoracion_value_changed" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="x">10</property>
+                                        <property name="y">18</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFrame" id="FR_background">
+                                        <property name="width_request">170</property>
+                                        <property name="height_request">118</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label_xalign">0</property>
+                                        <property name="shadow_type">etched-out</property>
+                                        <child>
+                                          <object class="GtkAlignment" id="alignment16">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="xalign">0</property>
+                                            <property name="yalign">0</property>
+                                            <child>
+                                              <object class="GtkFixed" id="fixed14">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <child>
+                                                  <object class="GtkImage" id="IM_decoracion">
+                                                    <property name="width_request">166</property>
+                                                    <property name="height_request">114</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="xalign">0</property>
+                                                    <property name="yalign">0</property>
+                                                    <property name="pixbuf">../.imagenes/EX-BG-01-x.jpg</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child type="label_item">
+                                          <placeholder/>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="x">10</property>
+                                        <property name="y">45</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="CK_aleatorio">
+                                        <property name="height_request">27</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="xalign">0</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_CK_aleatorio_toggled" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="x">10</property>
+                                        <property name="y">-2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label71">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Aleatorio&lt;/span&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="x">32</property>
+                                        <property name="y">2</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel" id="label30">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="yalign">0.49000000953674316</property>
+                                <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="white"&gt;Decoración Fondo&lt;/span&gt;&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">466</property>
+                        <property name="y">35</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEventBox" id="EB_reportes">
+                        <property name="width_request">194</property>
+                        <property name="height_request">59</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkFrame" id="FR_reportes">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label_xalign">0</property>
+                            <property name="label_yalign">0</property>
+                            <property name="shadow_type">etched-out</property>
+                            <child>
+                              <object class="GtkAlignment" id="alignment26">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkFixed" id="fixed24">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <child>
+                                      <object class="GtkCheckButton" id="CK_reportes">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="xalign">0</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="x">10</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label81">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Informar ruta digital de
+todo reporte generado&lt;/span&gt; </property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="x">32</property>
+                                        <property name="y">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel" id="label44">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="yalign">0.49000000953674316</property>
+                                <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="white"&gt;Reportes&lt;/span&gt;&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">466</property>
+                        <property name="y">235</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEventBox" id="EB_actualizacion">
+                        <property name="width_request">194</property>
+                        <property name="height_request">89</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkFrame" id="FR_actualizacion">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label_xalign">0</property>
+                            <property name="label_yalign">0</property>
+                            <property name="shadow_type">etched-out</property>
+                            <child>
+                              <object class="GtkAlignment" id="alignment300">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkFixed" id="fixed300">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <child>
+                                      <object class="GtkCheckButton" id="CK_actualizacion">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="xalign">0</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_CK_actualizacion_toggled" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="x">10</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label500">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Informar actualizaciones&lt;/span&gt; </property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="x">32</property>
+                                        <property name="y">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="CK_timeout">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="xalign">0</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_CK_timeout_toggled" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="x">10</property>
+                                        <property name="y">22</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label600">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Tiempo Límite (seg.)&lt;/span&gt; </property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="x">32</property>
+                                        <property name="y">23</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkHScale" id="SC_timeout">
+                                        <property name="width_request">170</property>
+                                        <property name="height_request">27</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="adjustment">adjustment2</property>
+                                        <property name="round_digits">0</property>
+                                        <property name="digits">0</property>
+                                        <property name="value_pos">right</property>
+                                      </object>
+                                      <packing>
+                                        <property name="x">10</property>
+                                        <property name="y">44</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel" id="label200">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="yalign">0.49000000953674316</property>
+                                <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="white"&gt;Actualizaciones&lt;/span&gt;&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">466</property>
+                        <property name="y">304</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_latex">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Parámetros de Ejecución - Código LATEX</property>
+    <property name="window_position">center-always</property>
+    <property name="icon">../.imagenes/EX1000.png</property>
+    <signal name="destroy" handler="on_BN_ok4_clicked" swapped="no"/>
+    <child>
+      <object class="GtkEventBox" id="EB_latex">
+        <property name="width_request">454</property>
+        <property name="height_request">305</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_latex">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="label_yalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed3">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFrame" id="FR_packages">
+                        <property name="width_request">430</property>
+                        <property name="height_request">200</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">etched-out</property>
+                        <child>
+                          <object class="GtkAlignment" id="alignment8">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkTextView" id="TV_packages">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="tooltip_markup">Código LATEX adicional (típicamente &lt;i&gt;packages&lt;/i&gt;) que se se inyectará en todos los documentos generados</property>
+                                <property name="tooltip_text" translatable="yes">Código LATEX adicional (típicamente packages) que se se inyectará en todos los documentos generados</property>
+                                <property name="wrap_mode">word-char</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label_item">
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">10</property>
+                        <property name="y">35</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_ok4">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image11</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_ok4_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">386</property>
+                        <property name="y">240</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label27">
+                        <property name="width_request">200</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Código LATEX (&lt;i&gt;packages&lt;/i&gt;)&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">127</property>
+                        <property name="y">10</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_programas">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Programas</property>
+    <property name="window_position">center-always</property>
+    <property name="icon">../.imagenes/EX1000.png</property>
+    <signal name="destroy" handler="on_BN_ok2_clicked" swapped="no"/>
+    <child>
+      <object class="GtkEventBox" id="EB_programas">
+        <property name="width_request">200</property>
+        <property name="height_request">251</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_programas">
+            <property name="width_request">200</property>
+            <property name="height_request">202</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="label_yalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkEntry" id="EN_latex_2_pdf">
+                        <property name="width_request">83</property>
+                        <property name="height_request">25</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Comando para compilar archivo LATEX
+y generar un archivo formato PDF</property>
+                        <property name="tooltip_text" translatable="yes">Comando para compilar archivo LATEX
+y generar un archivo formato PDF</property>
+                        <property name="invisible_char">●</property>
+                        <property name="width_chars">0</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">105</property>
+                        <property name="y">65</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label5">
+                        <property name="width_request">95</property>
+                        <property name="height_request">25</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Latex a PDF:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">6</property>
+                        <property name="y">65</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label6">
+                        <property name="width_request">95</property>
+                        <property name="height_request">25</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0.99000000953674316</property>
+                        <property name="yalign">0.49000000953674316</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Despliega PDF:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">6</property>
+                        <property name="y">35</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_despliega_pdf">
+                        <property name="width_request">83</property>
+                        <property name="height_request">25</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Comando usado para desplegar
+archivos formato PDF</property>
+                        <property name="tooltip_text" translatable="yes">Comando usado para desplegar
+archivos formato PDF</property>
+                        <property name="invisible_char">●</property>
+                        <property name="width_chars">0</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="progress_pulse_step">0.10999999940395355</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">105</property>
+                        <property name="y">35</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label18">
+                        <property name="width_request">95</property>
+                        <property name="height_request">25</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;gnuplot:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">6</property>
+                        <property name="y">125</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_gnuplot">
+                        <property name="width_request">83</property>
+                        <property name="height_request">25</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Comando asociado al gnuplot</property>
+                        <property name="tooltip_text" translatable="yes">Comando asociado al gnuplot</property>
+                        <property name="invisible_char">●</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">105</property>
+                        <property name="y">125</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_epstopdf">
+                        <property name="width_request">83</property>
+                        <property name="height_request">25</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Comando para convertir los archivos .eps
+generados por gnuplot a formato PDF</property>
+                        <property name="tooltip_text" translatable="yes">Comando para convertir los archivos .eps
+generados por gnuplot a formato PDF</property>
+                        <property name="invisible_char">●</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">105</property>
+                        <property name="y">95</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label20">
+                        <property name="width_request">95</property>
+                        <property name="height_request">25</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;EPS a PDF:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">6</property>
+                        <property name="y">95</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label29">
+                        <property name="width_request">95</property>
+                        <property name="height_request">25</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;Consola:&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">6</property>
+                        <property name="y">155</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="EN_xterm">
+                        <property name="width_request">83</property>
+                        <property name="height_request">25</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Comando para abrir una consola</property>
+                        <property name="tooltip_text" translatable="yes">Comando para abrir una consola</property>
+                        <property name="invisible_char">●</property>
+                        <property name="shadow_type">etched-out</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">105</property>
+                        <property name="y">155</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_ok2">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image9</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_ok2_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">133</property>
+                        <property name="y">186</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label2">
+                        <property name="width_request">100</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;&lt;b&gt;Programas&lt;/b&gt;&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">50</property>
+                        <property name="y">10</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="WN_update">
+    <property name="can_focus">False</property>
+    <property name="type">popup</property>
+    <property name="title" translatable="yes">Actualización Realizada</property>
+    <property name="window_position">center-always</property>
+    <child>
+      <object class="GtkEventBox" id="EB_update">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFrame" id="FR_update">
+            <property name="width_request">320</property>
+            <property name="height_request">75</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">etched-out</property>
+            <child>
+              <object class="GtkAlignment" id="alignment9">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkFixed" id="fixed7">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="label39">
+                        <property name="height_request">27</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;span foreground="white"&gt;&lt;b&gt;Parámetros fueron actualizados&lt;/b&gt;&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">10</property>
+                        <property name="y">24</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="BN_ok">
+                        <property name="width_request">56</property>
+                        <property name="height_request">56</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="border_width">2</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image8</property>
+                        <property name="relief">none</property>
+                        <property name="image_position">top</property>
+                        <signal name="clicked" handler="on_BN_ok_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="x">255</property>
+                        <property name="y">8</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="lower">1</property>
+    <property name="upper">20</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="lower">1</property>
+    <property name="upper">30</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-save.png</property>
+  </object>
+  <object class="GtkImage" id="image10">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkImage" id="image11">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkImage" id="image12">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkImage" id="image13">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkImage" id="image14">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-beamer.png</property>
+  </object>
+  <object class="GtkImage" id="image17">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkImage" id="image20">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-exit.png</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-reset.png</property>
+  </object>
+  <object class="GtkImage" id="image6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-pdf.png</property>
+  </object>
+  <object class="GtkImage" id="image7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkImage" id="image8">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkImage" id="image9">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../.imagenes/BN-ok.png</property>
+  </object>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="liststore2">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="liststore3">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="liststore4">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">AnnArbor</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Antibes</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Bergen</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Berkeley</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Berlin</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Boadilla</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">boxes</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">CambridgeUS</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Copenhagen</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Darmstadt</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">default</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Dresden</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Frankfurt</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Goettingen</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Hannover</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Ilmenau</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">JuanLesPins</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Luebeck</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Madrid</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Malmoe</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Marburg</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Montpellier</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">PaloAlto</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Pittsburgh</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Rochester</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Singapore</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Szeged</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Warsaw</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="liststore5">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">default</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">professionalfonts</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">serif</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">structurebold</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">structureitalicserif</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">structuresmallcapsserif</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="liststore6">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">albatross</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">beaver</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">beetle</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">crane</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">default</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">dolphin</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">dove</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">fly</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">lily</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">orchid</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">rose</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">seagull</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">seahorse</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">sidebartab</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">structure</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">whale</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">wolverine</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="liststore7">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">8pt</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">9pt</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">10pt</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">11pt</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">12pt</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="liststore8">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">4 x 3</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">16 x 9</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">16 x 10</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">14 x 9</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">1.41 x 1</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">5 x 4</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">3 x 2</col>
+      </row>
+    </data>
+  </object>
+</interface>

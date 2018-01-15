@@ -1,0 +1,561 @@
+/*
+Compile with:
+
+cc -o EX1020 EX1020.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+*/
+/*******************************************/
+/*  EX1020:                                */
+/*                                         */
+/*    Installs new versions                */
+/*    The Examiner 0.4                     */
+/*    March, 17th 2014                     */
+/*    Author: Francisco J. Torres-Rojas    */
+/*******************************************/
+#include <stdlib.h>
+#include <gtk/gtk.h>
+#include <libpq-fe.h>
+#include <locale.h>
+#include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include "examiner.h"
+
+/***************************/
+/* Postgres stuff          */
+/***************************/
+PGconn	 *DATABASE;
+
+/*************/
+/* GTK stuff */
+/*************/
+GtkBuilder*builder; 
+GError    * error = NULL;
+
+GtkWidget *window1            = NULL;
+GtkWidget *window2            = NULL;
+GtkWidget *window3            = NULL;
+GtkWidget *window4            = NULL;
+
+GtkWidget *EB_instalacion     = NULL;
+GtkWidget *FR_instalacion     = NULL;
+GtkFileChooser  *FC_EX_tgz    = NULL;
+GtkWidget       *EN_EX_tgz    = NULL;
+GtkFileChooser  *FC_ejecucion = NULL;
+GtkWidget       *EN_ejecucion = NULL;
+GtkFileChooser  *FC_respaldo  = NULL;
+GtkWidget       *EN_respaldo  = NULL;
+GtkToggleButton *CK_respaldo  = NULL;
+GtkLabel  *LB_EX_tgz_mensaje  = NULL;
+GtkLabel  *LB_advertencia     = NULL;
+
+GtkWidget *FR_botones  = NULL;
+GtkWidget *BN_proceso  = NULL;
+GtkWidget *BN_undo     = NULL;
+GtkWidget *BN_terminar = NULL;
+
+GtkWidget *FR_VN                   = NULL;
+GtkWidget *BN_confirma_instalacion = NULL;
+GtkWidget *BN_cancela_instalacion  = NULL;
+
+GtkWidget *EB_instalando = NULL;
+GtkWidget *FR_instalando = NULL;
+GtkWidget *PB_instala    = NULL;
+
+GtkWidget *EB_instalation_ready = NULL;
+GtkWidget *FR_instalation_ready = NULL;
+GtkWidget *BN_instalation_ready = NULL;
+GtkLabel  *LB_instalation_ready = NULL;
+
+/**************/
+/* Prototipos */
+/**************/
+void Connect_widgets                        ();
+void Ejecuta_Instalacion                    ();
+void Fin_de_Programa                        (GtkWidget *widget, gpointer user_data);
+void Fin_Ventana                            (GtkWidget *widget, gpointer user_data);
+void Init_Fields                            ();
+void Interface_Coloring                     ();
+int  main                                   (int argc, char *argv[]);
+void on_BN_cancela_instalacion_clicked      (GtkWidget *widget, gpointer user_data);
+void on_BN_confirma_instalacion_clicked     (GtkWidget *widget, gpointer user_data);
+void on_BN_instalation_ready_clicked        (GtkWidget *widget, gpointer user_data);
+void on_BN_proceso_clicked                  (GtkWidget *widget, gpointer user_data);
+void on_BN_terminar_clicked                 (GtkWidget *widget, gpointer user_data);
+void on_BN_undo_clicked                     (GtkWidget *widget, gpointer user_data);
+void on_CK_respaldo_toggled                 (GtkWidget *widget, gpointer user_data);
+void on_FC_ejecucion_current_folder_changed (GtkWidget *widget, gpointer user_data);
+void on_FC_EX_tgz_current_folder_changed    (GtkWidget *widget, gpointer user_data);
+void on_FC_respaldo_current_folder_changed  (GtkWidget *widget, gpointer user_data);
+void on_WN_ex1020_destroy                   (GtkWidget *widget, gpointer user_data);
+void Read_Only_Fields                       ();
+void Respalda_version_anterior              ();
+void size_to_hilera                         (long int file_size, char * hilera_size);
+void Toggle_respaldo                        (GtkWidget *widget, gpointer user_data);
+
+/***************************/
+/* Globales y Definiciones */
+/***************************/
+struct PARAMETROS_EXAMINER parametros;
+/*----------------------------------------------------------------------------*/
+
+/***************/
+/* M A I N ( ) */
+/***************/
+int main(int argc, char *argv[]) 
+{
+  /* make a connection to the database */
+  DATABASE = EX_connect_data_base ();
+
+  /* check to see that the backend connection was successfully made */
+  if (PQstatus(DATABASE) == CONNECTION_BAD)
+     {
+      fprintf(stderr, "Connection to database failed.\n");
+      fprintf(stderr, "%s", PQerrorMessage(DATABASE));
+      PQfinish(DATABASE);
+     }
+  else
+     {
+      gtk_init(&argc, &argv);
+      /* makes sure that numbers are formatted with '.' to separate decimals from integers - must be done after gkt_init() */
+      setlocale (LC_NUMERIC, "en_US.UTF-8");
+      carga_parametros_EXAMINER (&parametros, DATABASE);
+
+      builder = gtk_builder_new ();
+      if (!gtk_builder_add_from_file (builder, ".interfaces/EX1020.glade", &error))
+         {
+          g_warning ("%s\n", error->message);
+          g_error_free (error);
+         }
+      else
+	 {
+	  /* Conects functions to interface events */
+          gtk_builder_connect_signals (builder, NULL);
+
+	  /* Connects interface fields with memory variables */
+	  Connect_widgets ();
+
+	  /* Some fields are READ ONLY */
+	  Read_Only_Fields ();
+
+	  /* The magic of color...  */
+	  Interface_Coloring ();
+
+	  /* Despliega ventana */
+          gtk_widget_show(window1);  
+
+          Init_Fields ();              
+
+          /* start the event loop */
+          gtk_main ();
+	 }
+     }
+
+  return 0;
+}
+
+void Connect_widgets()
+{
+  window1        = GTK_WIDGET (gtk_builder_get_object (builder, "WN_ex1020"));
+  window2        = GTK_WIDGET (gtk_builder_get_object (builder, "WN_version_nueva"));
+  window3        = GTK_WIDGET (gtk_builder_get_object (builder, "WN_instalando"));
+  window4        = GTK_WIDGET (gtk_builder_get_object (builder, "WN_instalation_ready"));
+
+  EB_instalacion = GTK_WIDGET (gtk_builder_get_object (builder, "EB_instalacion"));
+  FR_instalacion = GTK_WIDGET (gtk_builder_get_object (builder, "FR_instalacion"));
+  FC_EX_tgz      = (GtkFileChooser *) GTK_WIDGET (gtk_builder_get_object (builder, "FC_EX_tgz"));
+  EN_EX_tgz      = GTK_WIDGET (gtk_builder_get_object (builder, "EN_EX_tgz"));
+  FC_ejecucion   = (GtkFileChooser *) GTK_WIDGET (gtk_builder_get_object (builder, "FC_ejecucion"));
+  EN_ejecucion   = GTK_WIDGET (gtk_builder_get_object (builder, "EN_ejecucion"));
+  FC_respaldo    = (GtkFileChooser *) GTK_WIDGET (gtk_builder_get_object (builder, "FC_respaldo"));
+  EN_respaldo    = GTK_WIDGET (gtk_builder_get_object (builder, "EN_respaldo"));
+  CK_respaldo    = (GtkToggleButton *) GTK_WIDGET (gtk_builder_get_object (builder, "CK_respaldo"));
+  LB_EX_tgz_mensaje = (GtkLabel  *) GTK_WIDGET (gtk_builder_get_object (builder, "LB_EX_tgz_mensaje"));
+  LB_advertencia    = (GtkLabel  *) GTK_WIDGET (gtk_builder_get_object (builder, "LB_advertencia"));
+
+  FR_botones  = GTK_WIDGET (gtk_builder_get_object (builder, "FR_botones"));
+  BN_proceso  = GTK_WIDGET (gtk_builder_get_object (builder, "BN_proceso"));
+  BN_undo     = GTK_WIDGET (gtk_builder_get_object (builder, "BN_undo"));
+  BN_terminar = GTK_WIDGET (gtk_builder_get_object (builder, "BN_terminar"));
+
+  FR_VN                   = GTK_WIDGET (gtk_builder_get_object (builder, "FR_VN"));
+  BN_confirma_instalacion = GTK_WIDGET (gtk_builder_get_object (builder, "BN_confirma_instalacion"));
+  BN_cancela_instalacion  = GTK_WIDGET (gtk_builder_get_object (builder, "BN_cancela_instalacion"));
+
+  EB_instalando           = GTK_WIDGET (gtk_builder_get_object (builder, "EB_instalando"));
+  FR_instalando           = GTK_WIDGET (gtk_builder_get_object (builder, "FR_instalando"));
+  PB_instala              = GTK_WIDGET (gtk_builder_get_object (builder, "PB_instala"));
+
+  EB_instalation_ready = GTK_WIDGET (gtk_builder_get_object (builder, "EB_instalation_ready"));
+  FR_instalation_ready = GTK_WIDGET (gtk_builder_get_object (builder, "FR_instalation_ready"));
+  BN_instalation_ready = GTK_WIDGET (gtk_builder_get_object (builder, "BN_instalation_ready"));
+  LB_instalation_ready = (GtkLabel  *) GTK_WIDGET (gtk_builder_get_object (builder, "LB_instalation_ready"));
+}
+
+void Read_Only_Fields ()
+{
+  gtk_widget_set_can_focus(EN_EX_tgz,    FALSE);
+  gtk_widget_set_can_focus(EN_ejecucion, FALSE);
+  gtk_widget_set_can_focus(EN_respaldo,  FALSE);
+}
+
+void Interface_Coloring ()
+{
+  GdkColor color;
+
+  gdk_color_parse (MAIN_WINDOW, &color);
+  gtk_widget_modify_bg(window1,  GTK_STATE_NORMAL,   &color);
+
+  gdk_color_parse (MAIN_AREA, &color);
+  gtk_widget_modify_bg(EB_instalacion, GTK_STATE_NORMAL, &color);
+
+  gdk_color_parse (STANDARD_FRAME, &color);
+  gtk_widget_modify_bg(FR_instalacion, GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(FR_botones,     GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(FR_instalando,  GTK_STATE_NORMAL, &color);
+
+  gdk_color_parse (STANDARD_ENTRY, &color);
+  gtk_widget_modify_bg(EN_EX_tgz,    GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_ejecucion, GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_respaldo,  GTK_STATE_NORMAL, &color);
+
+  gdk_color_parse (BUTTON_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_proceso,  GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_undo,     GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_terminar, GTK_STATE_PRELIGHT, &color);
+
+  gdk_color_parse (BUTTON_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_proceso,     GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_undo,        GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_terminar,    GTK_STATE_ACTIVE, &color);
+
+  gdk_color_parse ("dark green", &color);
+  gtk_widget_modify_bg(BN_confirma_instalacion,GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(EB_instalation_ready, GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(BN_instalation_ready, GTK_STATE_ACTIVE, &color);
+
+  gdk_color_parse ("green", &color);
+  gtk_widget_modify_bg(BN_confirma_instalacion,GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(FR_instalation_ready, GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(BN_instalation_ready, GTK_STATE_PRELIGHT, &color);
+
+  gdk_color_parse ("red", &color);
+  gtk_widget_modify_bg(BN_cancela_instalacion, GTK_STATE_PRELIGHT, &color);
+
+  gdk_color_parse ("dark red", &color);
+  gtk_widget_modify_bg(BN_cancela_instalacion, GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(GTK_WIDGET(PB_instala), GTK_STATE_PRELIGHT, &color);
+
+  gdk_color_parse (IMPORTANT_WINDOW, &color);
+  gtk_widget_modify_bg(window2,                  GTK_STATE_NORMAL, &color);
+
+  gdk_color_parse ("black", &color);
+  gtk_widget_modify_bg(FR_VN,                      GTK_STATE_NORMAL, &color);
+
+  gdk_color_parse ("dim gray", &color);
+  gtk_widget_modify_bg(EB_instalando,    GTK_STATE_NORMAL,   &color);  
+}
+
+void Init_Fields()
+{
+   char * Home_directory;
+   char Directorio_actual[1000];
+
+   Home_directory = getenv("HOME");
+   getcwd(Directorio_actual, 1000);
+
+   gtk_file_chooser_set_current_folder (FC_EX_tgz, Home_directory);
+   gtk_widget_set_sensitive     (GTK_WIDGET(FC_EX_tgz),    1);
+
+   gtk_file_chooser_set_current_folder (FC_ejecucion,  Directorio_actual);
+   gtk_widget_set_sensitive     (GTK_WIDGET(FC_ejecucion), 0);
+   gtk_widget_set_sensitive     (GTK_WIDGET(EN_ejecucion), 0);
+
+   gtk_file_chooser_set_current_folder (FC_respaldo, Home_directory);
+   gtk_widget_set_sensitive     (GTK_WIDGET(FC_respaldo),  0);
+   gtk_widget_set_sensitive     (GTK_WIDGET(EN_respaldo),  0);
+
+   gtk_toggle_button_set_active (CK_respaldo,  TRUE);
+   gtk_widget_set_sensitive     (GTK_WIDGET(CK_respaldo),  0);
+
+   gtk_widget_set_sensitive     (GTK_WIDGET(BN_proceso), 0);
+}
+
+void size_to_hilera(long int file_size, char * hilera_size)
+{
+  if (file_size < 1024)
+     sprintf (hilera_size, "%ld bytes", file_size);
+  else
+    if (file_size < (1024 * 1024))
+       sprintf (hilera_size, "%.2Lf Kb", (long double)file_size/1024.0);
+    else
+       sprintf (hilera_size, "%.2Lf Mb", (long double)file_size/(1024.0*1024.0));
+}
+
+void Toggle_respaldo(GtkWidget *widget, gpointer user_data)
+{
+  if (gtk_toggle_button_get_active(CK_respaldo))
+     {
+      gtk_widget_set_sensitive (GTK_WIDGET(FC_respaldo),  1);
+      gtk_widget_set_sensitive (GTK_WIDGET(EN_respaldo),  1);
+     }
+  else
+     {
+      gtk_widget_set_sensitive (GTK_WIDGET(FC_respaldo),  0);
+      gtk_widget_set_sensitive (GTK_WIDGET(EN_respaldo),  0);
+     }
+}
+
+void Ejecuta_Instalacion()
+{
+   gchar* directorio_ejecucion, *directorio_EX_tgz;
+   char comando[3000];
+   char Directorio_actual[1000];
+   char hilera[4000];
+
+   gtk_widget_set_sensitive(window1, 0);
+   gtk_widget_show         (window3);
+   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.0);
+   while (gtk_events_pending ()) gtk_main_iteration ();
+
+   if (gtk_toggle_button_get_active(CK_respaldo)) Respalda_version_anterior ();
+   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.25);
+   while (gtk_events_pending ()) gtk_main_iteration ();
+
+   directorio_ejecucion = gtk_editable_get_chars(GTK_EDITABLE(EN_ejecucion), 0, -1);
+   directorio_EX_tgz    = gtk_editable_get_chars(GTK_EDITABLE(EN_EX_tgz),    0, -1);
+
+   getcwd(Directorio_actual, 1000);
+   chdir(directorio_ejecucion);
+
+   /* Borra cualquier archivo o directorio,
+      incluidos los ocultos, excepto . y .. */
+   system  ("rm -rf ..?* .[!.]* *"); 
+   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.35);
+   while (gtk_events_pending ()) gtk_main_iteration ();
+
+   sprintf (comando, "cp %s/EX.tgz .", directorio_EX_tgz);
+   system (comando);
+   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.45);
+   while (gtk_events_pending ()) gtk_main_iteration ();
+
+   system ("tar xfz EX.tgz");
+   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.60);
+   while (gtk_events_pending ()) gtk_main_iteration ();
+
+   system ("rm -f EX.tgz");
+   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.65);
+   while (gtk_events_pending ()) gtk_main_iteration ();
+
+   system ("rm -f bin/*");
+   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.75);
+   while (gtk_events_pending ()) gtk_main_iteration ();
+
+   system ("rm -f EX");
+   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.77);
+   while (gtk_events_pending ()) gtk_main_iteration ();
+
+   chdir("sources");
+   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.78);
+   while (gtk_events_pending ()) gtk_main_iteration ();
+
+   sprintf (comando, "%s -geometry -0+0 -T \"Compilación\" -e \"make\"", 
+	    parametros.xterm);
+   system  (comando);
+   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.90);
+   while (gtk_events_pending ()) gtk_main_iteration ();
+
+   chdir(Directorio_actual);
+
+   sprintf (hilera,"<span foreground=\"white\">Se instaló el contenido de\n%s/EX.tgz\nen %s\n<span foreground=\"yellow\"><b>\nATENCIÓN:</b></span>  cierre todas las funciones\nabiertas de  <i>The Examiner</i>,  incluido el\nprograma principal, y ejecute de nuevo\ncon versión recien instalada.</span>", 
+            directorio_EX_tgz, directorio_ejecucion);
+   gtk_label_set_markup(LB_instalation_ready, hilera);
+
+   g_free(directorio_ejecucion);
+   g_free(directorio_EX_tgz);
+
+   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 1.0);
+   while (gtk_events_pending ()) gtk_main_iteration ();
+ 
+   gtk_widget_hide (window3);
+   gtk_widget_show (window4);
+}
+
+void Respalda_version_anterior ()
+{
+  char Directorio_actual[1000];
+  char Directorio[1000];
+  gchar * directorio_respaldo, * directorio_ejecucion;
+  char comando[3000];
+  char ruta[3000];
+
+  getcwd(Directorio_actual, 1000);
+  directorio_ejecucion = gtk_editable_get_chars(GTK_EDITABLE(EN_ejecucion), 0, -1);
+  chdir(directorio_ejecucion);
+
+  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.05);
+  while (gtk_events_pending ()) gtk_main_iteration ();
+
+  directorio_respaldo = gtk_editable_get_chars(GTK_EDITABLE(EN_respaldo), 0, -1);
+  sprintf (comando,"tar cfz %s/EX-previo.tgz .", directorio_respaldo);
+
+  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.07);
+  while (gtk_events_pending ()) gtk_main_iteration ();
+
+  system (comando);
+
+  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(PB_instala), 0.18);
+  while (gtk_events_pending ()) gtk_main_iteration ();
+
+  chdir(Directorio_actual);
+
+  g_free(directorio_ejecucion);
+  g_free(directorio_respaldo);
+}
+
+void Fin_de_Programa (GtkWidget *widget, gpointer user_data)
+{
+   /* close the connection to the database and cleanup */
+   PQfinish(DATABASE);
+   gtk_main_quit ();
+   exit (0);
+}
+
+void Fin_Ventana (GtkWidget *widget, gpointer user_data)
+{
+  /* close the connection to the database and cleanup */
+  PQfinish(DATABASE);
+  gtk_main_quit ();
+  exit (0);
+}
+
+/***********************/
+/*  Interface Hookups  */
+/***********************/
+void on_WN_ex1020_destroy (GtkWidget *widget, gpointer user_data) 
+{
+  Fin_Ventana (widget, user_data);
+}
+
+void on_BN_terminar_clicked(GtkWidget *widget, gpointer user_data)
+{
+  Fin_de_Programa (widget, user_data);
+}
+
+void on_BN_undo_clicked(GtkWidget *widget, gpointer user_data)
+{
+  carga_parametros_EXAMINER (&parametros, DATABASE);
+  Init_Fields ();
+}
+
+void on_BN_proceso_clicked(GtkWidget *widget, gpointer user_data)
+{
+  gchar * fecha;
+  char hilera[4000];
+  gchar* directorio_ejecucion, *directorio_tgz;
+
+  gtk_widget_set_sensitive (window1, 0);
+  gtk_widget_show          (window2);
+  directorio_ejecucion = gtk_editable_get_chars(GTK_EDITABLE(EN_ejecucion), 0, -1);
+  directorio_tgz       = gtk_editable_get_chars(GTK_EDITABLE(EN_EX_tgz), 0, -1);
+  sprintf (hilera,"<b>ATENCIÓN:</b> el contenido actual del directorio\n<b>%s</b>\nserá borrado y reemplazado por el contenido de\n<b>%s/EX.tgz</b>", directorio_ejecucion, directorio_tgz);
+  gtk_label_set_markup(LB_advertencia, hilera);
+
+  g_free(directorio_ejecucion);
+  g_free(directorio_tgz);
+}
+
+void on_FC_EX_tgz_current_folder_changed (GtkWidget *widget, gpointer user_data)
+{
+  gchar * EX_tgz;
+  char path[4000];
+  struct stat file_data;
+  long int file_size;
+  char hilera_size[100];
+  char hilera[4000];
+
+  EX_tgz  = gtk_file_chooser_get_filename(FC_EX_tgz);
+  gtk_entry_set_text  (GTK_ENTRY(EN_EX_tgz), EX_tgz);
+  strcpy (path, EX_tgz);
+  strcat (path,"/");
+  strcat (path, "EX.tgz");
+  g_free (EX_tgz);
+
+  if (existe_archivo(path))
+     {
+      if (!stat(path,&file_data))
+  	 file_size = file_data.st_size;
+      else
+         file_size = 0;
+      size_to_hilera(file_size, hilera_size);
+
+      sprintf (hilera,"<span foreground=\"white\">Archivo <b>EX.tgz</b> (%s) existe en el directorio indicado</span>", hilera_size);
+      gtk_label_set_markup(LB_EX_tgz_mensaje, hilera);
+
+      gtk_widget_set_sensitive     (GTK_WIDGET(FC_ejecucion), 1);
+      gtk_widget_set_sensitive     (GTK_WIDGET(EN_ejecucion), 1);
+      gtk_widget_set_sensitive     (GTK_WIDGET(CK_respaldo),  1);
+      if (gtk_toggle_button_get_active(CK_respaldo))
+	 {
+          gtk_widget_set_sensitive (GTK_WIDGET(FC_respaldo),  1);
+          gtk_widget_set_sensitive (GTK_WIDGET(EN_respaldo),  1);
+	 }
+      gtk_widget_set_sensitive     (GTK_WIDGET(BN_proceso),   1);
+     }
+  else
+     {
+      gtk_label_set_markup(LB_EX_tgz_mensaje, "<span foreground=\"white\">Archivo <b>EX.tgz</b> no se encuentra en el directorio indicado</span>");
+      gtk_widget_set_sensitive     (GTK_WIDGET(FC_ejecucion), 0);
+      gtk_widget_set_sensitive     (GTK_WIDGET(EN_ejecucion), 0);
+      gtk_widget_set_sensitive     (GTK_WIDGET(CK_respaldo),  0);
+      gtk_widget_set_sensitive     (GTK_WIDGET(FC_respaldo),  0);
+      gtk_widget_set_sensitive     (GTK_WIDGET(EN_respaldo),  0);
+      gtk_widget_set_sensitive     (GTK_WIDGET(BN_proceso),   0);
+     }
+}
+
+void on_FC_ejecucion_current_folder_changed(GtkWidget *widget, gpointer user_data)
+{
+  gchar * ejecucion;
+
+  ejecucion = gtk_file_chooser_get_filename(FC_ejecucion);
+  gtk_entry_set_text  (GTK_ENTRY(EN_ejecucion), ejecucion);
+  g_free (ejecucion);
+}
+
+void on_FC_respaldo_current_folder_changed(GtkWidget *widget, gpointer user_data)
+{
+  gchar * respaldo;
+
+  respaldo = gtk_file_chooser_get_filename(FC_respaldo);
+  gtk_entry_set_text  (GTK_ENTRY(EN_respaldo), respaldo);
+  g_free (respaldo);
+}
+
+void on_CK_respaldo_toggled (GtkWidget *widget, gpointer user_data)
+{
+  Toggle_respaldo (widget, user_data);
+}
+
+void on_BN_cancela_instalacion_clicked(GtkWidget *widget, gpointer user_data)
+{
+  gtk_widget_hide (window2);
+  gtk_widget_set_sensitive(window1, 1);
+  gtk_widget_grab_focus (BN_undo);
+}
+
+void on_BN_confirma_instalacion_clicked(GtkWidget *widget, gpointer user_data)
+{
+  gtk_widget_hide (window2);
+  gtk_widget_set_sensitive(window1, 1);
+  Ejecuta_Instalacion();
+}
+
+void on_BN_instalation_ready_clicked(GtkWidget *widget, gpointer user_data)
+{
+  gtk_widget_hide (window4);
+  gtk_widget_set_sensitive(window1, 1);
+}

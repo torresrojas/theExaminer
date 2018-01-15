@@ -1,0 +1,380 @@
+
+------------------------------------------------------------------------------------------------
+||                                            PARAMETROS                                      ||
+------------------------------------------------------------------------------------------------
+
+============================================================
+PARAMETROS:
+ Diversos parámetros del sistema. Se almacena una hilera construida con sprintf() que debe ser analizada
+ con sscanf().
+
+create table PA_Parametros
+(codigo_parametro    char(8) PRIMARY KEY,
+ hilera_parametro    char varying(4096)
+);
+============================================================
+
+------------------------------------------------------------------------------------------------
+||                                         BASE DE DATOS                                      ||
+------------------------------------------------------------------------------------------------
+
+============================================================
+MATERIAS:
+  Almacena cursos, temas y subtemas.
+
+create table BD_Materias
+(codigo_materia      char(10),
+ codigo_tema         char(10),
+ codigo_subtema      char(10),
+ descripcion_materia char varying(200),
+ orden               int,
+ PRIMARY KEY (codigo_materia, codigo_tema, codigo_subtema)
+);
+============================================================
+
+============================================================
+OBJETIVOS:
+  Objetivo General y Objetivos Específicos de cada curso.
+
+create table BD_Objetivos
+(materia      char(10) PRIMARY KEY,
+ objetivo_general     char varying(4096),
+ N_objetivos          int,
+ objetivo_especifico1 char varying(4096),
+ objetivo_especifico2 char varying(4096),
+ objetivo_especifico3 char varying(4096),
+ objetivo_especifico4 char varying(4096),
+ objetivo_especifico5 char varying(4096),
+ objetivo_especifico6 char varying(4096),
+ objetivo_especifico7 char varying(4096),
+ objetivo_especifico8 char varying(4096)
+);
+============================================================
+
+============================================================
+PERSONAS:
+  Profesores o Autores de ejercicios.
+
+create table BD_Personas
+(codigo_persona         char(10) PRIMARY KEY,
+ nombre               char varying(100),
+ afiliacion           char varying(200)
+);
+============================================================
+
+
+============================================================
+EJERCICIOS:
+  Ejercicios por materia, tema, subtema. Apunta a un "texto" el cual puede ser compartido por distintos ejercicios.
+
+create table BD_Ejercicios
+(codigo_ejercicio char(6) PRIMARY KEY,
+ materia          char(10),
+ tema             char(10),
+ subtema          char(10),
+ liga_year            int,
+ liga_month           int,
+ liga_day             int,
+ automatico       boolean,
+ comentario       char varying(100),
+ texto_ejercicio  char(6) REFERENCES BD_Texto_Ejercicios ON DELETE RESTRICT,
+ objetivo1        char(1),
+ objetivo2        char(1),
+ objetivo3        char(1),
+ objetivo4        char(1),
+ objetivo5        char(1),
+ objetivo6        char(1),
+ objetivo7        char(1),
+ objetivo8        char(1),
+ bloom                int,
+
+ FOREIGN KEY (materia, tema, subtema) REFERENCES BD_Materias(codigo_materia, codigo_tema, codigo_subtema) ON DELETE RESTRICT
+);
+============================================================
+
+
+============================================================
+TEXTO EJERCICIOS:
+ El texto de un ejercicio puede ser referenciado por distintos cursos.
+
+create table BD_Texto_Ejercicios
+(consecutivo_texto char(6) PRIMARY KEY,
+ descripcion_ejercicio char varying(200),
+ contador_referencias int,
+ autor             char(10) REFERENCES bd_personas ON DELETE RESTRICT,
+ usa_header        boolean,
+ texto_header      char varying(4096)
+);
+============================================================
+
+
+============================================================
+TEXTO PREGUNTAS:
+ Asociadas a un ejercicio. 
+
+create table BD_Texto_Preguntas
+(
+ codigo_consecutivo_ejercicio char(6) REFERENCES BD_Texto_Ejercicios ON DELETE RESTRICT,
+ secuencia_pregunta           int,
+ codigo_unico_pregunta        char(6) UNIQUE NOT NULL,
+ tipo             char(1),
+ creacion_year    int,
+ creacion_month   int,
+ creacion_day     int,
+
+ dificultad_estimada      float,
+
+ texto_pregunta   char varying (4096),
+ texto_opcion_A   char varying (4096),
+ texto_opcion_B   char varying (4096),
+ texto_opcion_C   char varying (4096),
+ texto_opcion_D   char varying (4096),
+ texto_opcion_E   char varying (4096),
+ respuesta        char,
+ alfileres_opciones char(5),
+
+ PRIMARY KEY (codigo_consecutivo_ejercicio, secuencia_pregunta)
+);
+============================================================
+
+create table BD_Estadisticas_Preguntas
+(
+ pregunta        char(6) UNIQUE NOT NULL,
+
+ ultimo_uso_year          int,
+ ultimo_uso_month         int,
+ ultimo_uso_day           int,
+ ultimo_examen            char(5),
+ N_examenes               int,
+ N_estudiantes            int,
+ media_examenes           float,
+ suma_cuadrados_examenes  float,
+ varianza_examenes        float,
+
+ dificultad               float,
+ varianza_dificultad      float,
+ point_biserial           float,
+ media_correctos          float,
+ media_incorrectos        float,
+ N_correctos              int,
+ N_incorrectos            int,
+ cronbach_alpha_media_con float,
+ cronbach_alpha_media_sin float,
+ ponderacion_cronbach   int,
+
+ frecuencia       int,
+ frecuencia_1     int,
+ frecuencia_2     int,
+ frecuencia_3     int,
+ frecuencia_4     int,
+ frecuencia_5     int,
+
+ media_ex_1_1        float,
+ media_ex_1_0        float,
+ media_ex_2_1        float,
+ media_ex_2_0        float,
+ media_ex_3_1        float,
+ media_ex_3_0        float,
+ media_ex_4_1        float,
+ media_ex_4_0        float,
+ media_ex_5_1        float,
+ media_ex_5_0        float,
+
+ point_biserial_1          float,
+ point_biserial_2          float,
+ point_biserial_3          float,
+ point_biserial_4          float,
+ point_biserial_5          float,
+
+ PRIMARY KEY (pregunta)
+);
+============================================================
+
+
+============================================================
+EXCLUYENTES
+ Si dos ejercicios excluyentes, sólo uno de los 2 puede ser usado en un mismo examen. Se hace a nivel de texto del ejercicio.
+
+create table BD_Excluyentes
+( codigo_1 char(6) REFERENCES BD_Texto_Ejercicios ON DELETE CASCADE, 
+  codigo_2 char(6) REFERENCES BD_Texto_Ejercicios ON DELETE CASCADE
+);
+============================================================
+
+
+------------------------------------------------------------------------------------------------
+||                                            EXAMENES                                        ||
+------------------------------------------------------------------------------------------------
+
+============================================================
+ESQUEMA
+ Describe la composición de un posible examen. Todas las preguntas deben ser de la misma materia. Si se necesita se pueden
+ crear links entre preguntas previamente.
+
+create table EX_Esquemas
+(codigo_esquema      char(5) PRIMARY KEY,
+ materia             char(10) REFERENCES BD_materias(codigo_materia) ON DELETE RESTRICT,
+ creacion_year       int,
+ creacion_month      int,
+ creacion_day        int,
+ descripcion_esquema char varying(200)
+);
+============================================================
+
+
+============================================================
+ESQUEMA_LINEAS
+ Para un esquema hay un registro por cada tema/subtema diferente de un esquema
+
+create table EX_Esquemas_Lineas
+(esquema             char(5) REFERENCES EX_Esquemas ON DELETE CASCADE,
+ tema                char(10),
+ subtema             char(10),
+ Numero_preguntas    int,
+
+ PRIMARY KEY (esquema,tema, subtema)
+);
+============================================================
+
+============================================================
+PRE_EXAMEN
+ A partir de un esquema se "puebla" un pre-examen con preguntas tomadas de la base de datos. También se pueden agregar y borrar
+ preguntas manualmente de un pre-examen
+
+create table EX_pre_examenes
+(codigo_pre_examen      char(5) PRIMARY KEY,
+ esquema                char(5) REFERENCES EX_Esquemas ON DELETE RESTRICT,
+ descripcion_pre_examen char varying (200),
+ media_pre_examen       float,
+ desviacion_pre_examen  float,
+ frecuencia_pre_examen  int,
+ novedad_pre_examen     float,
+ alfa_pre_examen        float,
+ Rpb_pre_examen         float
+);
+============================================================
+
+============================================================
+PRE_EXAMEN_LINEAS
+ Preguntas que forman el pre-examen.
+
+create table EX_pre_examenes_Lineas
+(pre_examen          char(5) REFERENCES EX_pre_examenes ON DELETE CASCADE,
+ codigo_pregunta     char(6) REFERENCES BD_Texto_Preguntas(codigo_unico_pregunta),
+ ejercicio           char(6) REFERENCES BD_Ejercicios ON DELETE RESTRICT,
+ secuencia           int,
+ PRIMARY KEY (pre_examen, codigo_pregunta)
+);
+============================================================
+
+------------------------------------------------------------------------------------------------
+||                                             EXAMENES                                       ||
+------------------------------------------------------------------------------------------------
+
+============================================================
+EXAMEN
+ Descripción de un examen. Se construye a partir de un pre_examen. Puede haber una o más versiones, pero todas tienen exactamente las
+ mismas preguntas (diferentes órdenes de ejercicios y opciones).
+
+create table EX_Examenes
+(codigo_examen         char(5) PRIMARY KEY,
+ descripcion           char varying (200),
+ pre_examen            char(5) REFERENCES EX_Pre_Examenes ON DELETE RESTRICT,
+ profesor              char(10) REFERENCES BD_personas ON DELETE RESTRICT,
+ materia               char(10),
+ institucion           char varying (200),
+ escuela               char varying (200),
+ programa              char varying (200),
+ Year                  int,
+ Month                 int,
+ Day                   int,
+ N_versiones           int,
+ Usos                  int,
+ prediccion_media      float,
+ prediccion_desviacion float,
+ prediccion_alfa       float,
+ prediccion_Rpb        float,
+ real_media            float,
+ real_desviacion       float,
+ real_alfa             float,
+ real_Rpb              float,
+ tiene_instrucciones   boolean,
+ instrucciones          char varying (4096),
+ tiene_juramento       boolean,
+ juramento             char varying (4096),
+ Ejecutado             boolean
+);
+============================================================
+
+============================================================
+VERSIONES
+ Hay un registro por cada versión del examen. Todas las versiones del mismo examen tienen las mismas preguntas aunque posiblemente en distintos órdenes.
+
+create table EX_Versiones
+(examen                char(5) REFERENCES EX_Examenes ON DELETE CASCADE,
+ version               char(4),
+ orden                 int,
+ opciones_barajadas    boolean,
+ PRIMARY KEY(examen, version)
+);
+============================================================
+
+============================================================
+EXAMEN_PREGUNTAS
+ Preguntas asociadas a cada version de un examen. El orden es muy importante dentro de cada examen. También indica el orden de las
+ opciones y cual es la respuesta correcta.
+
+create table EX_Examenes_Preguntas
+(examen          char(5) REFERENCES EX_Examenes ON DELETE CASCADE,
+ version         char(4),
+ posicion        int,
+ ejercicio       char(6) REFERENCES BD_Ejercicios ON DELETE RESTRICT,
+ secuencia       int,
+ codigo_pregunta char(6) REFERENCES BD_Texto_Preguntas(codigo_unico_pregunta) ON DELETE RESTRICT,
+ Opcion_1        int,
+ Opcion_2        int,
+ Opcion_3        int,
+ Opcion_4        int,
+ Opcion_5        int,
+ respuesta       char,
+ PRIMARY KEY(examen, version, posicion)
+);
+============================================================
+
+============================================================
+EXAMEN RESPUESTAS
+ Respuestas dadas por cada estudiante
+
+create table EX_Examenes_Respuestas
+(examen        char(5) REFERENCES EX_Examenes ON DELETE CASCADE,
+ estudiante    int,
+ nombre        char varying (50),
+ version       char(4),
+ correctas     int,
+ porcentaje    float,
+ nota_ajustada float,
+ nota_final    float,
+ respuestas char varying (1000),
+ PRIMARY KEY (examen, estudiante),
+ FOREIGN KEY (examen, version) REFERENCES ex_versiones(examen, version) ON DELETE CASCADE
+);
+============================================================
+
+============================================================
+EXAMEN AJUSTES
+ Ajustes asociados a algunas preguntas de un examen
+
+create table EX_Examenes_Ajustes
+(examen        char(5) REFERENCES EX_Examenes ON DELETE CASCADE,
+ secuencia     int,
+ codigo_pregunta char(6) REFERENCES BD_Texto_Preguntas(codigo_unico_pregunta) ON DELETE RESTRICT,
+ ajuste        int,
+ correcta_1    int,
+ correcta_2    int,
+ correcta_3    int,
+ correcta_4    int,
+ correcta_5    int,
+ actualizar    int,
+ PRIMARY KEY   (examen, secuencia)
+);
+============================================================

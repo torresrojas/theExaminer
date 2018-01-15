@@ -1,0 +1,158 @@
+#
+#	theExaminer
+#	This file compiles and cleans the source code for theExaminer
+#
+
+CC=cc
+FLAGS_CMP=-Wno-deprecated-declarations
+#FLAGS_CMP=-g
+UTILITIES=EX_utilities.c
+LATEX_WINDOW=EX_latex.c
+PGSQL_DIR=-I/usr/include/postgresql # pg_config --includedir
+GTK20_LIB=`pkg-config --cflags --libs gtk+-2.0`
+GTK30_LIB=`pkg-config --cflags --libs gtk+-3.0`
+GTKGD_LIB=`pkg-config --cflags --libs libglade-2.0`
+GTKGD3_LIB=`pkg-config --cflags --libs libglade-3.0`
+PGSQL_LNK=-L/usr/lib -lpq # pg_config --libdir
+GTK20_LNK=-export-dynamic -lm
+GTKGD_LNK=-export-dynamic -lm
+#CHECK_TAG=-Wall -Wextra
+CHECK_TAG=
+
+all: ../bin/EX1000	../bin/EX1010 ../bin/EX1020 ../bin/EX2000 ../bin/EX2010 ../bin/EX2020 ../bin/EX2030 ../bin/EX2040 ../bin/EX2050 ../bin/EX2060 ../bin/EX2070 ../bin/EX3000 ../bin/EX3010 ../bin/EX3020 ../bin/EX3030 ../bin/EX3040 ../bin/EX3050 ../bin/EX4000 ../bin/EX4010 ../bin/EX4020	../bin/EX5000 ../bin/EX5010 ../bin/EX5020 ../bin/EX5030 ../bin/EX5040 ../bin/EX6000 ../bin/EX6010 ../bin/EX6020 ../EX ../bin/EX-Z ../bin/EX-O ../bin/EX-T ../bin/EX-A
+
+../EX: EX.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX EX.c EX_utilities.c    -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+../bin/EX-Z: EX-Z.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+../bin/EX-O: EX-O.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK30_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+../bin/EX-T: EX-T.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK30_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+../bin/EX-A: EX-A.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK30_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+# ============================ MODULE 1 ============================
+
+../bin/EX1000: EX1000.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX1000 EX1000.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+../bin/EX1010: EX1010.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX1000 EX1000.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+../bin/EX1020: EX1020.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+
+# ============================ MODULE 2 ============================
+
+../bin/EX2000: EX2000.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX2000 EX2000.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX2010: EX2010.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX2010 EX2010.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX2020: EX2020.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX2020 EX2020.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX2030: EX2030.c EX_utilities.c EX_latex.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES)  $(LATEX_WINDOW) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX2030 EX2030.c EX_utilities.c EX_latex.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX2040: EX2040.c EX_utilities.c EX_latex.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(LATEX_WINDOW) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#       cc -o EX2040 EX2040.c EX_utilities.c EX_latex.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX2050: EX2050.c EX_utilities.c EX_latex.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(LATEX_WINDOW) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX2050 EX2050.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX2060: EX2060.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX2060 EX2060.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX2070: EX2070.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX2070 EX2070.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+# ============================ MODULE 3 ============================
+
+../bin/EX3000: EX3000.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX3000 EX3000.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX3010: EX3010.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX3010 EX3010.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX3020: EX3020.c  EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX3020 EX3020.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX3030: EX3030.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX3030 EX3030.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX3040: EX3040.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX3040 EX3040.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX3050: EX3050.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(LATEX_WINDOW) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX3050 EX3050.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+
+# ============================ MODULE 4 ============================
+
+../bin/EX4000: EX4000.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX4000 EX4000.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX4010: EX4010.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX4010 EX4010.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX4020: EX4020.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX4020 EX4020.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+# ============================ MODULE 5 ============================
+
+../bin/EX5000: EX5000.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX5000 EX5000.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX5010: EX5010.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX5010 EX5010.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX5020: EX5020.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#	cc -o EX5020 EX5020.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX5030: EX5030.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+#       cc -o EX5030 EX5030.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+../bin/EX5040: EX5040.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTKGD_LNK)
+#	cc -o EX5040 EX5040.c EX_utilities.c -I/usr/include/postgresql `pkg-config --cflags --libs gtk+-2.0` -L/usr/lib/postgresql/9.1/lib -lpq -export-dynamic
+
+# ============================ MODULE 6 ============================
+
+../bin/EX6000: EX6000.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+
+../bin/EX6010: EX6010.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+
+../bin/EX6020: EX6020.c EX_utilities.c examiner.h
+	$(CC) $(FLAGS_CMP) -o $@ $< $(UTILITIES) $(PGSQL_DIR) $(GTK20_LIB) $(PGSQL_LNK) $(GTK20_LNK)
+
+clean:
+	rm -rf ../EX ../bin/EX*
+
+clear:
+	rm -rf ../EX ../bin/EX*

@@ -1,0 +1,9 @@
+NUMBER OF DATABASES = 7
+DESCRIPTION = Esta es la descripcion de la base de datos
+LOCAL = 1
+DATABASE = EXAMENES
+DATABASE = EX_VACIA
+
+
+
+

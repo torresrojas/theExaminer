@@ -1,0 +1,530 @@
+/*******************************************/
+/*  EX Latex:                              */
+/*                                         */
+/*    Latex input window. It has some      */
+/*    helping features...                  */
+/*    The Examiner                         */
+/*    Author: Francisco J. Torres-Rojas    */        
+/*******************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <libpq-fe.h>
+#include <gtk/gtk.h>
+#include <libgen.h>
+#include "examiner.h"
+struct PARAMETROS_EXAMINER parameters_examiner;
+
+static GtkWidget     * WN_latex;
+static GtkWidget     * WN_LA_figure;
+static GtkWidget     * WN_previous   = NULL;
+
+static GtkWidget     * EB_letters    = NULL;
+static GtkWidget     * FR_letters    = NULL;
+static GtkWidget     * BN_bold       = NULL;
+static GtkWidget     * BN_italic     = NULL;
+static GtkWidget     * BN_under      = NULL;
+static GtkWidget     * BN_courier    = NULL;
+static GtkWidget     * BN_normalsize = NULL;
+static GtkWidget     * BN_small      = NULL;
+static GtkWidget     * BN_footnote   = NULL;
+static GtkWidget     * BN_script     = NULL;
+static GtkWidget     * BN_tiny       = NULL;
+static GtkWidget     * BN_large      = NULL;
+static GtkWidget     * BN_Large      = NULL;
+static GtkWidget     * BN_LARGE      = NULL;
+static GtkWidget     * BN_huge       = NULL;
+static GtkWidget     * BN_Huge       = NULL;
+
+static GtkWidget     * EB_size       = NULL;
+static GtkWidget     * FR_size       = NULL;
+
+static GtkWidget     * FR_latex_code = NULL;
+static GtkTextView   * TV_latex_code = NULL;
+static GtkTextBuffer * buffer_TV_Latex_code;
+
+static GtkWidget       * FR_LA_figure;
+static GtkToggleButton * RB_H          = NULL;
+static GtkToggleButton * RB_h          = NULL;
+static GtkToggleButton * RB_t          = NULL;
+static GtkToggleButton * RB_b          = NULL;
+static GtkToggleButton * RB_p          = NULL;
+static GtkToggleButton * RB_libre      = NULL;
+static GtkSpinButton   * SP_LA_escala  = NULL;
+static GtkSpinButton   * SP_LA_angulo  = NULL;
+static GtkFileChooser  * FC_LA_image   = NULL;
+static GtkToggleButton * CK_reference  = NULL;
+static GtkWidget       * EN_label      = NULL;
+static GtkWidget       * EN_caption    = NULL;
+static GtkToggleButton * RB_abajo      = NULL;
+static GtkToggleButton * RB_arriba     = NULL;
+static GtkWidget       * FR_FG_buttons;
+static GtkWidget       * BN_LA_FG_ok     = NULL;
+static GtkWidget       * BN_LA_FG_cancel = NULL;
+
+static char * insert_code[]={"\\textbf{%s}",
+                             "\\textit{%s}",
+                             "\\underline{%s}",
+                             "\\texttt{%s}",
+                             "{\\tiny %s}",
+                             "{\\scriptsize %s}",
+                             "{\\footnotesize %s}",
+                             "{\\small %s}",
+                             "{\\normalsize %s}",
+                             "{\\large %s}",
+                             "{\\Large %s}",
+                             "{\\LARGE %s}",
+                             "{\\huge %s}",
+                             "{\\Huge %s}",
+                             "\n\n\%\% Es buena idea eliminar los comentarios generados :)\n\n\%\% Recuerde cambiar el label apropiadamente\nVer \\textbf{Figura \\ref{Fig:latex_label_123}}\n\n\%\% El argumento H provoca que se intente colocar figura en este lugar\n\\begin{figure}[H]\n  \\centering\n\%\% Cambiar escala y  nombre de figura\n  \\includegraphics[scale=1.0]{Chicago_Cubs.jpg}\n\%\% Eliminar el caption si no se desea\n\\caption{}\n\%\% Recuerde cambiar el label apropiadamente\n\\label{Fig:latex_label_123}\n\\end{figure}\n",
+                            };
+#define BOLD     0
+#define ITALICS  1
+#define UNDER    2
+#define COURIER  3
+#define TINY     4
+#define SCRIPT   5
+#define FOOTNOTE 6
+#define SMALL    7
+#define NORMAL   8
+#define LARGE1   9
+#define LARGE2   10
+#define LARGE3   11
+#define HUGE1    12
+#define HUGE2    13
+#define BASIC_FIGURE 14
+
+char LabelRoot[100];
+
+/* Local Prototypes */
+static void Print_Latex_Buffer ();
+static void Connect_widgets(GtkBuilder * builder);
+static void Init_FIG_Fields();
+static void Interface_Coloring ();
+
+extern guint Connect_Latex_Window(GtkBuilder * builder, GError ** error, struct PARAMETROS_EXAMINER parameters)
+{
+  guint result;
+
+  parameters_examiner = parameters;
+
+  result = gtk_builder_add_from_file (builder, ".interfaces/EXlatex.glade", error);
+
+  if (result)
+     {
+      /* Connects interface fields with memory variables */
+      Connect_widgets (builder);
+
+      /* Particular settings for the File Chooser */
+      gtk_file_chooser_set_local_only     (FC_LA_image, TRUE);
+      gtk_file_chooser_set_action         (FC_LA_image, GTK_FILE_CHOOSER_ACTION_OPEN);
+      
+
+      /* The magic of color...  */
+      Interface_Coloring ();
+     }
+
+  return(result);
+}
+
+extern void Display_Latex_Window(char * window_title, char * Root, GtkTextBuffer * new_buffer, GtkWidget *prev_window)
+{
+  WN_previous = prev_window;
+  strcpy(LabelRoot, Root);
+
+  gtk_window_set_title(GTK_WINDOW(WN_latex), window_title);
+
+  gtk_text_view_set_buffer (TV_latex_code, new_buffer);
+  if (WN_previous) gtk_widget_set_sensitive (WN_previous, 0);
+  gtk_widget_show          (WN_latex);
+  gtk_widget_grab_focus (GTK_WIDGET(TV_latex_code));
+} 
+
+/****************/
+/*  Local code  */
+/****************/
+static void Connect_widgets(GtkBuilder * builder)
+{
+  WN_latex      = GTK_WIDGET (gtk_builder_get_object (builder, "WN_latex"));
+  WN_LA_figure  = GTK_WIDGET (gtk_builder_get_object (builder, "WN_LA_figure"));
+
+
+  EB_letters    = GTK_WIDGET (gtk_builder_get_object (builder, "EB_letters"));
+  FR_letters    = GTK_WIDGET (gtk_builder_get_object (builder, "FR_letters"));
+  BN_bold       = GTK_WIDGET (gtk_builder_get_object (builder, "BN_bold"));
+  BN_italic     = GTK_WIDGET (gtk_builder_get_object (builder, "BN_italic"));
+  BN_under      = GTK_WIDGET (gtk_builder_get_object (builder, "BN_under"));
+  BN_courier    = GTK_WIDGET (gtk_builder_get_object (builder, "BN_courier"));
+  BN_normalsize = GTK_WIDGET (gtk_builder_get_object (builder, "BN_normalsize"));
+  BN_small      = GTK_WIDGET (gtk_builder_get_object (builder, "BN_small"));
+  BN_footnote   = GTK_WIDGET (gtk_builder_get_object (builder, "BN_footnote"));
+  BN_script     = GTK_WIDGET (gtk_builder_get_object (builder, "BN_script"));
+  BN_tiny       = GTK_WIDGET (gtk_builder_get_object (builder, "BN_tiny"));
+  BN_large      = GTK_WIDGET (gtk_builder_get_object (builder, "BN_large"));
+  BN_Large      = GTK_WIDGET (gtk_builder_get_object (builder, "BN_Large"));
+  BN_LARGE      = GTK_WIDGET (gtk_builder_get_object (builder, "BN_LARGE"));
+  BN_huge       = GTK_WIDGET (gtk_builder_get_object (builder, "BN_huge"));
+  BN_Huge       = GTK_WIDGET (gtk_builder_get_object (builder, "BN_Huge"));
+
+  EB_size       = GTK_WIDGET (gtk_builder_get_object (builder, "EB_size"));
+  FR_size       = GTK_WIDGET (gtk_builder_get_object (builder, "FR_size"));
+  FR_latex_code = GTK_WIDGET (gtk_builder_get_object (builder, "FR_latex_code"));
+  TV_latex_code = (GtkTextView *) GTK_WIDGET (gtk_builder_get_object (builder, "TV_latex_code"));
+
+  FR_LA_figure    = GTK_WIDGET (gtk_builder_get_object (builder, "FR_LA_figure"));
+  RB_H            = (GtkToggleButton *) GTK_WIDGET (gtk_builder_get_object (builder, "RB_H"));
+  RB_h            = (GtkToggleButton *) GTK_WIDGET (gtk_builder_get_object (builder, "RB_h"));
+  RB_t            = (GtkToggleButton *) GTK_WIDGET (gtk_builder_get_object (builder, "RB_t"));
+  RB_b            = (GtkToggleButton *) GTK_WIDGET (gtk_builder_get_object (builder, "RB_b"));
+  RB_p            = (GtkToggleButton *) GTK_WIDGET (gtk_builder_get_object (builder, "RB_p"));
+  RB_libre        = (GtkToggleButton *) GTK_WIDGET (gtk_builder_get_object (builder, "RB_libre"));
+  FC_LA_image     = (GtkFileChooser *) GTK_WIDGET (gtk_builder_get_object (builder, "FC_LA_image"));
+  SP_LA_escala    = (GtkSpinButton *) GTK_WIDGET (gtk_builder_get_object (builder, "SP_LA_escala"));
+  SP_LA_angulo    = (GtkSpinButton *) GTK_WIDGET (gtk_builder_get_object (builder, "SP_LA_angulo"));
+  CK_reference    = (GtkToggleButton *) GTK_WIDGET (gtk_builder_get_object (builder, "CK_reference"));
+  EN_label        = GTK_WIDGET (gtk_builder_get_object (builder, "EN_label"));
+  EN_caption      = GTK_WIDGET (gtk_builder_get_object (builder, "EN_caption"));
+  RB_abajo        = (GtkToggleButton *) GTK_WIDGET (gtk_builder_get_object (builder, "RB_abajo"));
+  RB_arriba       = (GtkToggleButton *) GTK_WIDGET (gtk_builder_get_object (builder, "RB_arriba"));
+
+  FR_FG_buttons   = GTK_WIDGET (gtk_builder_get_object (builder, "FR_FG_buttons"));
+  BN_LA_FG_ok     = GTK_WIDGET (gtk_builder_get_object (builder, "BN_LA_FG_ok"));
+  BN_LA_FG_cancel = GTK_WIDGET (gtk_builder_get_object (builder, "BN_LA_FG_cancel"));
+}
+
+static void Interface_Coloring ()
+{
+  GdkColor color;
+
+  gdk_color_parse (MAIN_WINDOW, &color);
+  gtk_widget_modify_bg(WN_latex,  GTK_STATE_NORMAL,   &color);
+
+  gdk_color_parse (MAIN_AREA, &color);
+  gtk_widget_modify_bg(WN_LA_figure,  GTK_STATE_NORMAL,   &color);
+  gtk_widget_modify_bg(EB_letters,  GTK_STATE_NORMAL,   &color);
+
+
+
+  gtk_widget_modify_bg(EB_size,  GTK_STATE_NORMAL,   &color);
+
+  gdk_color_parse (STANDARD_FRAME, &color);
+  gtk_widget_modify_bg(FR_letters,       GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(FR_size,          GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(FR_FG_buttons,    GTK_STATE_NORMAL, &color);
+
+  gdk_color_parse (STANDARD_ENTRY, &color);
+  gtk_widget_modify_bg(FR_latex_code, GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(FR_LA_figure,  GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_label,      GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(EN_caption,    GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(GTK_WIDGET(SP_LA_escala), GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg(GTK_WIDGET(SP_LA_angulo), GTK_STATE_NORMAL, &color);
+
+  gdk_color_parse (BUTTON_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_bold,         GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_italic,       GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_under,        GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_courier,      GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_normalsize,   GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_small,        GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_footnote,     GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_script,       GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_tiny,         GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_large,        GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_Large,        GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_LARGE,        GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_huge,         GTK_STATE_PRELIGHT, &color);  
+  gtk_widget_modify_bg(BN_Huge,         GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_LA_FG_ok,     GTK_STATE_PRELIGHT, &color);
+  gtk_widget_modify_bg(BN_LA_FG_cancel, GTK_STATE_PRELIGHT, &color);
+
+  gdk_color_parse (BUTTON_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_bold,         GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_italic,       GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_under,        GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_courier,      GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_normalsize,   GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_small,        GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_footnote,     GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_script,       GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_tiny,         GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_large,        GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_Large,        GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_LARGE,        GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_huge,         GTK_STATE_ACTIVE, &color);  
+  gtk_widget_modify_bg(BN_Huge,         GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_LA_FG_ok,     GTK_STATE_ACTIVE, &color);
+  gtk_widget_modify_bg(BN_LA_FG_cancel, GTK_STATE_ACTIVE, &color);
+}
+
+static void Init_FIG_Fields()
+{
+   char label[200];
+   static int N=1;
+
+   gtk_toggle_button_set_active(RB_H, TRUE);
+   gtk_spin_button_set_value (SP_LA_escala, 1.0);
+   gtk_spin_button_set_value (SP_LA_angulo, 0.0);
+   gtk_file_chooser_set_current_folder (FC_LA_image, parameters_examiner.ruta_figuras);
+   gtk_file_chooser_unselect_all (FC_LA_image);
+   gtk_toggle_button_set_active(CK_reference, TRUE);
+   sprintf (label, "FIG:%s-%02d", LabelRoot, N++);
+   gtk_entry_set_text(GTK_ENTRY(EN_label),   label);
+   gtk_entry_set_text(GTK_ENTRY(EN_caption), "*** Descripci\\'on Figura ***");
+   gtk_toggle_button_set_active(RB_abajo, TRUE);
+   gtk_widget_set_sensitive(BN_LA_FG_ok,  0);
+}
+
+static void Print_Latex_Buffer ()
+{
+   FILE * Archivo_Latex;
+   GtkTextBuffer * buffer_latex;
+   GtkTextIter start;
+   GtkTextIter end;
+   gchar *text_latex;
+   char  *latex_corregido;
+
+   Archivo_Latex = fopen ("LATEX.tex","w");
+
+   fprintf (Archivo_Latex, "\\documentclass[9pt,journal, oneside]{EXAMINER}\n");
+
+   EX_latex_packages (Archivo_Latex);
+   fprintf (Archivo_Latex, "\n%s\n\n", parameters_examiner.Paquetes);
+
+   fprintf (Archivo_Latex, "\\SetWatermarkText{}\n");
+   fprintf (Archivo_Latex, "\\graphicspath{{%s/}}\n\n", parameters_examiner.ruta_figuras);
+
+   fprintf (Archivo_Latex, "\\begin{document}\n");
+   fprintf (Archivo_Latex, "\\title{\\LaTeX}\n");
+   fprintf (Archivo_Latex, "\\maketitle\n\n");
+
+   buffer_latex = gtk_text_view_get_buffer(TV_latex_code);
+
+   gtk_text_buffer_get_start_iter (buffer_latex, &start);
+   gtk_text_buffer_get_end_iter   (buffer_latex, &end);
+   text_latex  = gtk_text_buffer_get_text (buffer_latex, &start, &end, FALSE);
+   latex_corregido = (char *) malloc (sizeof(char) * strlen(text_latex)*2);
+   hilera_LATEX (text_latex, latex_corregido);
+   fprintf (Archivo_Latex, "%s\n\n", latex_corregido);
+
+   fprintf (Archivo_Latex, "\\end{document}\n");
+   fclose (Archivo_Latex);
+   free(latex_corregido);
+
+   latex_2_pdf (&parameters_examiner, parameters_examiner.ruta_reportes, parameters_examiner.ruta_latex, "LATEX", 1, NULL, 0.0, 0.0, NULL, NULL);
+}
+
+static void mark_up_region (int which_type)
+{
+   GtkTextBuffer * buffer_latex;
+   GtkTextIter start;
+   GtkTextIter end;
+   gchar * marked_text, *expanded_text;
+   int text_size;
+
+   buffer_latex = gtk_text_view_get_buffer(TV_latex_code);
+
+   if (gtk_text_buffer_get_selection_bounds (buffer_latex, &start, &end))
+      {
+       marked_text = gtk_text_buffer_get_text (buffer_latex, &start, &end, FALSE);
+       text_size = strlen(marked_text) + strlen(insert_code[which_type]) + 1;
+       expanded_text = malloc(sizeof(char) * text_size);
+       sprintf(expanded_text, insert_code[which_type], marked_text);
+       gtk_text_buffer_insert_at_cursor(buffer_latex, expanded_text, strlen(expanded_text));
+       gtk_text_buffer_get_selection_bounds (buffer_latex, &start, &end);
+       gtk_text_buffer_delete (buffer_latex, &start, &end);
+       free(expanded_text);
+      }
+
+   gtk_widget_grab_focus (GTK_WIDGET(TV_latex_code));
+}
+
+static void insert_text (char * text)
+{
+   GtkTextBuffer * buffer_latex;
+
+   buffer_latex = gtk_text_view_get_buffer(TV_latex_code);
+   gtk_text_buffer_insert_at_cursor(buffer_latex, text, strlen(text));
+   gtk_widget_grab_focus (GTK_WIDGET(TV_latex_code));
+}
+
+/*****************************/
+/*  LATEX Interface Hookups  */
+/*****************************/
+void on_WN_latex_destroy (GtkWidget *widget, gpointer user_data) 
+{
+  // Fin_Ventana (widget, user_data);
+}
+
+void on_BN_latex_print_clicked(GtkWidget *widget, gpointer user_data)
+{
+  Print_Latex_Buffer ();
+}
+
+void on_BN_latex_OK_clicked(GtkWidget *widget, gpointer user_data)
+{
+  gtk_widget_hide (WN_latex);
+  gtk_widget_set_sensitive(WN_previous, 1);
+}
+
+void on_BN_bold_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(BOLD);
+}
+
+void on_BN_italic_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(ITALICS);
+}
+
+void on_BN_under_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(UNDER);
+}
+
+void on_BN_courier_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(COURIER);
+}
+
+void on_BN_tiny_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(TINY);
+}
+
+void on_BN_script_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(SCRIPT);
+}
+
+void on_BN_footnote_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(FOOTNOTE);
+}
+
+void on_BN_small_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(SMALL);
+}
+
+void on_BN_normalsize_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(NORMAL);
+}
+
+void on_BN_large_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(LARGE1);
+}
+
+void on_BN_Large_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(LARGE2);
+}
+
+void on_BN_LARGE_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(LARGE3);
+}
+
+void on_BN_huge_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(HUGE1);
+}
+
+void on_BN_Huge_clicked(GtkWidget *widget, gpointer user_data)
+{
+   mark_up_region(HUGE2);
+}
+
+void on_BN_latex_figure_clicked(GtkWidget *widget, gpointer user_data)
+{
+  Init_FIG_Fields ();
+
+  gtk_widget_set_sensitive (WN_latex, 0);
+  gtk_widget_show          (WN_LA_figure);
+  gtk_widget_grab_focus    (GTK_WIDGET(FC_LA_image));
+}
+
+void on_BN_LA_FG_cancel_clicked(GtkWidget *widget, gpointer user_data)
+{
+  gtk_widget_hide (WN_LA_figure);
+  gtk_widget_set_sensitive(WN_latex, 1);
+}
+
+void on_WN_LA_figure_delete_event(GtkWidget *widget, gpointer user_data)
+{
+  gtk_widget_hide (WN_LA_figure);
+  gtk_widget_set_sensitive(WN_latex, 1);
+}
+
+void on_CK_reference_toggled (GtkWidget *widget, gpointer user_data)
+{
+  if (gtk_toggle_button_get_active(CK_reference))
+     {
+      gtk_widget_set_sensitive(EN_label,   1);
+      gtk_widget_set_sensitive(EN_caption, 1);
+      gtk_widget_set_sensitive(GTK_WIDGET(RB_abajo),   1);
+      gtk_widget_set_sensitive(GTK_WIDGET(RB_arriba),  1);
+     }
+  else
+     {
+      gtk_widget_set_sensitive(EN_label,   0);
+      gtk_widget_set_sensitive(EN_caption, 0);
+      gtk_widget_set_sensitive(GTK_WIDGET(RB_abajo),   0);
+      gtk_widget_set_sensitive(GTK_WIDGET(RB_arriba),  0);
+     }
+}
+
+void on_FC_LA_image_file_set(GtkWidget *widget, gpointer user_data)
+{
+  gtk_widget_set_sensitive(BN_LA_FG_ok,  1);
+}
+
+void on_BN_LA_FG_ok_clicked(GtkWidget *widget, gpointer user_data)
+{
+  char Figure_Code[4024];
+  int position;
+  char *text_positions [] = {"[H]","[h]","[t]","[b]","[p]"," "};
+  long double scale, angle;
+  gchar * filename;
+  gchar * label;
+  gchar * caption;
+
+  position = gtk_toggle_button_get_active(RB_H)? 0 :
+             gtk_toggle_button_get_active(RB_h)? 1 :
+             gtk_toggle_button_get_active(RB_t)? 2 :
+             gtk_toggle_button_get_active(RB_b)? 3 :
+             gtk_toggle_button_get_active(RB_p)? 4 : 5;
+
+  scale    = gtk_spin_button_get_value (SP_LA_escala);
+  angle    = gtk_spin_button_get_value (SP_LA_angulo);
+  filename = gtk_file_chooser_get_filename       (FC_LA_image);
+
+  if (gtk_toggle_button_get_active(CK_reference))
+     {
+      label    = gtk_editable_get_chars(GTK_EDITABLE(EN_label), 0, -1);
+      caption  = gtk_editable_get_chars(GTK_EDITABLE(EN_caption), 0, -1);
+      if (gtk_toggle_button_get_active(RB_arriba))
+	 {
+          sprintf (Figure_Code,"\nVer \\textbf{Figura \\ref{%s}}\n\n\\begin{figure}%s\n  \\centering\n   \\caption{%s}\n  \\includegraphics[scale=%1.3Lf,angle=%3.1Lf]{%s}\n\\label{%s}\n\\end{figure}\n", 
+                   label, text_positions[position],caption, scale, angle, basename(filename), label);
+	 }
+      else
+	 {
+          sprintf (Figure_Code,"\nVer \\textbf{Figura \\ref{%s}}\n\n\\begin{figure}%s\n  \\centering\n  \\includegraphics[scale=%1.3Lf,angle=%3.1Lf]{%s}\n\\caption{%s}\n\\label{%s}\n\\end{figure}\n", 
+                   label, text_positions[position],scale, angle, basename(filename), caption, label);
+	 }
+     }
+  else
+     {
+      sprintf (Figure_Code,"\n\n\\begin{figure}%s\n  \\centering\n  \\includegraphics[scale=%1.3Lf,angle=%3.1Lf]{%s}\n\\end{figure}\n",
+               text_positions[position],scale, angle, basename(filename));
+     }
+
+
+  insert_text(Figure_Code);
+  g_free(filename);
+  gtk_widget_hide (WN_LA_figure);
+  gtk_widget_set_sensitive(WN_latex, 1);
+}
